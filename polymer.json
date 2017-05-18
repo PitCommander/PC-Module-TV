@@ -1,0 +1,20 @@
+{
+    "entrypoint": "index.html",
+    "shell": "src/my-app.html",
+    "fragments": [
+    "src/checklist-view.html",
+    "src/match-view.html",
+    "src/safety-view.html",
+    "src/screen-view.html",
+    "src/my-view404.html"
+  ],
+    "sourceGlobs": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+    "includeDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}

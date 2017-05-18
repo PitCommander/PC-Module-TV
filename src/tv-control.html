@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-button-group/paper-button-group.html">
+
+<link rel="import" href="shared-styles.html">
+<dom-module id="tv-control">
+  <template>
+    <style include="shared-styles">
+      paper-button[toggles][active] {
+        background: var(--app-primary-color);
+        color: white;
+      }
+      
+      paper-button-group {
+        @apply(--layout-vertical)
+      }
+      
+      @media only screen and (max-width: 1823px) {
+        paper-button {
+          margin-bottom: 10px;
+          font-size: 30px;
+        }
+        h1 {
+          text-align: center;
+          font-size: 40px;
+        }
+      }
+      
+      @media only screen and (min-width: 1824px) {
+        paper-button {
+          margin-bottom: 10px;
+          font-size: 50px;
+        }
+        h1 {
+          text-align: center;
+          font-size: 50px;
+        }
+      }
+    </style>
+    <div class="card">
+      <h1>{{name}} TV Content</h1>
+      <paper-button-group selected="{{selected}}">
+        <paper-button raised toggles name="stream">Video Stream</paper-button>
+        <paper-button raised toggles name="record">Team Record</paper-button>
+        <paper-button raised toggles name="timer">Match Timer</paper-button>
+        <paper-button raised toggles name="specs">Robot Specs</paper-button>
+        <paper-button raised toggles name="logo">Logo Screen</paper-button>
+      </paper-button-group>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'tv-control',
+      properties: {
+        name: String,
+        selected: {
+          type: String,
+          observer: '_tvController'
+        },
+      },
+      
+      _tvController: function() {
+        console.log("Command is: " + this.name + " set to " + this.selected);
+      },
+    });
+  </script>
+</dom-module>

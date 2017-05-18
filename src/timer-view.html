@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="timer-view">
+    <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+        padding-top: 60px;
+      }
+        
+      .blue {
+        color: CornflowerBlue;
+      }
+      
+      .red {
+        color: Crimson;
+      }
+        
+                h1 {
+          font-size: 120px;
+                    text-align: center;
+        }
+        
+                h2 {
+                    margin: 0px;
+          font-size: 50px;
+        }
+    </style>
+
+    <div class="card">
+        <h2>Leave for next match in:</h2>
+        <h1>{{ttz}}</h1>
+    </div>
+    <div class="card">
+        <h2>Next match is {{nextNum}} at {{scheduledTime}} on the <span id="bumpers">{{bumperColor}}  alliance</span></h2>
+        <h2>Allies are: {{allies}}</h2>
+        <h2>Opponents are: {{oppo}}</h2>
+    </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'timer-view',
+            properties: {
+                ttz: {
+                    type: String,
+                    value: '0h 0m 0s'
+                },
+                nextNum: {
+                    type: String,
+                    value: 'QM--'
+                },
+                scheduledTime: {
+                    type: String,
+                    value: '--:-- AM'
+                },
+                bumperColor: {
+                    type: String,
+                    value: 'blue',
+                    observer: '_bumperHandler'
+                },
+
+                allies: {
+                    type: String,
+                    value: '- - -'
+                },
+                oppo: {
+                    type: String,
+                    value: '- - -'
+                },
+            },
+
+            _bumperHandler: function() {
+                var currentColor = this.bumperColor.toLowerCase();
+
+                if (currentColor == 'red') {
+                    this.$.bumpers.classList.remove('blue');
+                    this.$.bumpers.classList.add('red');
+                } else if (currentColor == 'blue') {
+                    this.$.bumpers.classList.remove('red');
+                    this.$.bumpers.classList.add('blue');
+                } else {
+                    this.$.bumpers.classList.remove('red');
+                    this.$.bumpers.classList.remove('blue');
+                }
+            }
+        });
+
+    </script>
+</dom-module>
