@@ -1,21 +1,25 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
-
 <dom-module id="logo-view">
-    <template>
+  <template>
     <style include="shared-styles">
-      :host {
-          margin: 10px;
-        display: block;
-      }
+     :host {
+      margin: 10px;
+      display: block;
+      background-color: red;
+    }
+    
+    .color {
+      background-color: red;
+    }
     </style>
-
-    </template>
-
-    <script>
-        Polymer({
-            is: 'logo-view',
-        });
-
-    </script>
+    <div class="flex color">
+      <span>test</span>
+    </div>
+  </template>
+  <script>
+  Polymer({
+    is: 'logo-view',
+  });
+  </script>
 </dom-module>

@@ -2,89 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="PC-TV">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <meta charset="utf-8">
+  <meta name="generator" content="PC-TV">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>PC-TV</title>
+  <meta name="description" content="FRC401 Pit UI">
+  <link rel="icon" href="/images/favicon.ico">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#d35401">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Pit401">
+  <script src="renderer.js"></script>
+  <script src="announce.js"></script>
+  <script>
+  // Setup Polymer options
+  window.Polymer = {
+    dom: 'shadow',
+    lazyRegister: true,
+  };
 
-    <title>PC-TV</title>
-    <meta name="description" content="FRC401 Pit UI">
+  (function() {
+    'use strict';
 
-    <link rel="icon" href="/images/favicon.ico">->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#d35401">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Pit401">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Pit 401">
-    <link rel="apple-touch-icon" href="/images/manifest/icon-48x48.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/manifest/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="/images/manifest/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/manifest/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
-    <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#d35401">
-    <meta name="msapplication-tap-highlight" content="no">
-
-    <script src="renderer.js"></script>
-    <script src="announce.js"></script>
-    <script>
-        // Setup Polymer options
-        window.Polymer = {
-            dom: 'shady',
-            lazyRegister: true,
-        };
-
-        // Load webcomponentsjs polyfill if browser does not support native
-        // Web Components
-        (function() {
-            'use strict';
-
-            var onload = function() {
-                // For native Imports, manually fire WebComponentsReady so user code
-                // can use the same code path for native and polyfill'd imports.
-                if (!window.HTMLImports) {
-                    document.dispatchEvent(
-                        new CustomEvent('WebComponentsReady', {
-                            bubbles: true
-                        })
-                    );
-                }
-            };
-
-            var webComponentsSupported = (
-                'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
-            );
-
-            if (!webComponentsSupported) {
-                var script = document.createElement('script');
-                script.async = true;
-                script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
-                script.onload = onload;
-                document.head.appendChild(script);
-            } else {
-                onload();
-            }
-        })();
-
-    </script>
-
-    <link rel="import" href="src/tv-app.html">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', 'Noto', sans-serif;
-            line-height: 1.5;
-            min-height: 100vh;
-            background-color: #eeeeee;
-        }
-
-    </style>
+    var onload = function() {
+      if (!window.HTMLImports) {
+        document.dispatchEvent(
+          new CustomEvent('WebComponentsReady', {
+            bubbles: true
+          })
+        );
+      }
+    };
+    onload();
+  })();
+  </script>
+  <link rel="import" href="src/tv-app.html">
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    background-color: #eeeeee;
+  }
+  </style>
 </head>
 
-<body>
-    <tv-app></tv-app>
+<body class="fullbleed vertical layout">
+  <tv-app class="flex"></tv-app>
 </body>
 
 </html>

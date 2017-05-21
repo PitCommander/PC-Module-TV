@@ -10,6 +10,7 @@
 <link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="stream-view.html">
@@ -17,68 +18,94 @@
 <link rel="import" href="specs-view.html">
 <link rel="import" href="timer-view.html">
 <link rel="import" href="logo-view.html">
-
 <dom-module id="tv-app">
-    <template>
+  <template>
     <style>
-      :host {
-        --app-primary-color: #d35401;
-        --app-secondary-color: black;
-        display: block;
+     :host {
+      --app-primary-color: #d35401;
+      --app-secondary-color: black;
+      display: block;
+    }
+    
+    .header-text {
+      font-size: 50px;
+      ;
+    }
+    
+    @media only screen and (min-width: 1824px) {
+      .header-text {
+        font-size: 50px;
+        ;
       }
-
-        .header-text {
-          font-size: 50px;
-          ;
-        }
-
-        h1 {
-          font-size: 50px;
-        }
-      
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
+      paper-tab {
+        font-size: 50px;
       }
-
+      h1 {
+        font-size: 50px;
+      }
+    }
+    
+    @media only screen and (max-width: 1823px) {
+      .header-text {
+        font-size: 20px;
+        ;
+      }
+      paper-tab {
+        font-size: 20px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+    }
+    
+    app-header {
+      color: #fff;
+      background-color: var(--app-primary-color);
+    }
+    
+    .big {
+      --iron-icon-height: 50px;
+      --iron-icon-width: 50px;
+    }
+    
+    logo-view {
+      background-color: red;
+      color: red;
+      color: green;
+    }
     </style>
-
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern=":/" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
-    <app-drawer-layout fullbleed force-narrow>
-
-
+    <app-drawer-layout force-narrow fullbleed>
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-
         <app-header fixed id="header">
           <app-toolbar>
-            <div main-title class="header-text">PitCommander-TV</div>
+            <div main-title class="header-text">
+              <iron-icon class="big" icon="my-icons:snake"></iron-icon>
+            </div>
           </app-toolbar>
         </app-header>
-        <neon-animated-pages selected="[[page]]" attr-for-selected="name" fallback-selection="logo" role="main"  entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+        <neon-animated-pages selected="[[page]]" attr-for-selected="name" fallback-selection="logo" role="main" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
           <stream-view name="stream"></stream-view>
           <schedule-view name="schedule"></schedule-view>
           <timer-view name="timer"></timer-view>
           <specs-view name="specs"></specs-view>
-            <logo-view name="logo"></logo-view>
+          <logo-view class="fit" name="logo"></logo-view>
         </neon-animated-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
-
-    <script>
-        Polymer({
-            is: 'tv-app',
-            properties: {
-                page: {
-                    type: String,
-                    value: "timer",
-                    reflectToAttribute: true,
-                },
-            },
-        });
-
-    </script>
+  <script>
+  Polymer({
+    is: 'tv-app',
+    properties: {
+      page: {
+        type: String,
+        value: "logo",
+        reflectToAttribute: true,
+      },
+    },
+  });
+  </script>
 </dom-module>
