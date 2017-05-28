@@ -88,5 +88,24 @@ sock.on( 'message', function( message ) {
 
       document.querySelector( 'schedule-view' ).data = schedule;
       break;
+    case 'TvPacket':
+      var data = messageObj.payload;
+      var tv = document.querySelector( 'tv-app' )''
+      name: name,
+      selected: selected,
+      mute: mute,
+      volume: volume,
+      power: power
+      if (this.id == data.selected) {
+        tv.page = data.page;
+        //powerHandlder(data.power);
+        //muteHandler(data.mute);
+        //volumeHandler(data.volume)
+      }
+      
+      break;
+
   }
 } );
+
+function powerHandler()

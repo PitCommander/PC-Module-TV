@@ -1,19 +1,18 @@
 {
-    "entrypoint": "index.html",
-    "shell": "src/my-app.html",
-    "fragments": [
+  "entrypoint": "index.html",
+  "shell": "src/tv-app.html",
+  "fragments": [
     "src/checklist-view.html",
     "src/match-view.html",
     "src/safety-view.html",
-    "src/screen-view.html",
-    "src/my-view404.html"
+    "src/screen-view.html"
   ],
-    "sourceGlobs": [
+  "sources": [
     "src/**/*",
     "images/**/*",
     "bower.json"
   ],
-    "includeDependencies": [
+  "extraDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]

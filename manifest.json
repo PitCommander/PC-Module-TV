@@ -1,12 +1,11 @@
 {
-  "name": "Pit Commander",
-  "short_name": "Pit Commander",
+  "name": "PC-Module-TV",
+  "short_name": "PC-TV",
   "start_url": "/?homescreen=1",
   "display": "standalone",
   "theme_color": "#d35401",
   "background_color": "#d35401",
-  "icons": [
-    {
+  "icons": [ {
       "src": "images/manifest/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"

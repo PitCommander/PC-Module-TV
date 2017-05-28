@@ -1,5 +1,5 @@
 {
-  "name": "pit-commander-app",
+  "name": "pc-module-tv",
   "authors": [
     "FRC Team 401"
   ],
@@ -21,7 +21,8 @@
     "paper-button": "PolymerElements/paper-button#^1.0.15",
     "paper-button-group": "Protoss78/paper-button-group#^0.0.1",
     "paper-datatable": "^0.9.8",
-    "iron-icons": "PolymerElements/iron-icons#^2.0.0"
+    "iron-icons": "PolymerElements/iron-icons#^2.0.0",
+    "iron-image": "PolymerElements/iron-image#^2.0.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

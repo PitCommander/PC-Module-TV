@@ -73,6 +73,16 @@
       color: red;
       color: green;
     }
+    
+    .logoHidden {
+      opacity: 0;
+      transition: opacity 1s linear;
+    }
+    
+    .logoShown {
+      opacity: 1;
+      transition: opacity 1s linear;
+    }
     </style>
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern=":/" data="{{routeData}}" tail="{{subroute}}"></app-route>
@@ -82,7 +92,7 @@
         <app-header fixed id="header">
           <app-toolbar>
             <div main-title class="header-text">
-              <iron-icon class="big" icon="my-icons:snake"></iron-icon>
+              <iron-icon id="teamLogo" class="big" icon="my-icons:snake"></iron-icon>
             </div>
           </app-toolbar>
         </app-header>
@@ -104,7 +114,15 @@
         type: String,
         value: "logo",
         reflectToAttribute: true,
+        observer: "_pageHandler"
       },
+    },
+
+    _pageHandler: function() {
+      var logoPage = (this.page == 'logo');
+
+      this.toggleClass('logoHidden', logoPage, this.$.teamLogo);
+      this.toggleClass('logoShown', !logoPage, this.$.teamLogo);
     },
   });
   </script>

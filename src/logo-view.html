@@ -1,20 +1,24 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="shared-styles.html">
 <dom-module id="logo-view">
   <template>
     <style include="shared-styles">
      :host {
-      margin: 10px;
+      margin: 0px;
       display: block;
-      background-color: red;
     }
     
     .color {
-      background-color: red;
+      background-color: var(--app-primary-color);
+    }
+    
+     ::-webkit-scrollbar {
+      display: none;
     }
     </style>
     <div class="flex color">
-      <span>test</span>
+      <iron-image src="../images/logoWhite.png" sizing="contain" style="width: calc(100% - 40px); height: calc(100vh - 111px); margin: 20px; padding: 0px;"></iron-image>
     </div>
   </template>
   <script>

@@ -1,9 +1,9 @@
 {
-  "name": "pit-commander",
+  "name": "pc-module-tv",
   "author": "frc401",
   "version": "0.1.0",
   "license": "GNU-GPLv3",
-  "description": "FRC401 Pit Commander App",
+  "description": "Pit Commander TV Screen Module",
   "main": "main.js",
   "devDependencies": {
     "electron-rebuild": "^1.5.11",
