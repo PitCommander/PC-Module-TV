@@ -4,6 +4,30 @@ var zmq = require('zeromq'),
 sock.connect('tcp://10.0.0.4:5800');
 sock.subscribe('');
 
+var testing = zmq.socket('sub');
+testing.connect('tcp://10.0.0.4:5802');
+testing.subscribe('');
+
+testing.on('message', function (message) {
+  var messageObj = JSON.parse(message);
+  switch (messageObj.id) {
+  case 'TV_SET':
+    var data = messageObj.payload;
+    console.log(data);
+    var tv = document.querySelector('tv-app');
+    console.log(tv.screen);
+    if (tv.screen == data.name) {
+      console.log('name matched!')
+      tv.set('page', data.selected);
+      //powerHandlder(data.power);
+      //muteHandler(data.mute);
+      //volumeHandler(data.volume)
+    }
+
+    break;
+  }
+});
+
 sock.on('message', function (message) {
   var messageObj = JSON.parse(message);
   switch (messageObj.id) {
