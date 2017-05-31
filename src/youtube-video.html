@@ -1,0 +1,104 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="youtube-video">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+      }
+
+      iframe {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+      }
+    </style>
+    <div id="video"></div>
+    <script async src="https://www.youtube.com/iframe_api"></script>
+    <script>
+      var player;
+
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('video', {
+          videoId: '{{video}}',
+          width: '{{width}}',
+          height: '{{height}}',
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            showinfo: 0,
+            modestbranding: 1,
+            loop: 0,
+            fs: 0,
+            cc_load_policy: 0,
+            iv_load_policy: 3,
+            autohide: 0
+          }
+        });
+      }
+    </script>
+  </template>
+  <script>
+    Polymer({
+      is: 'youtube-video',
+      properties: {
+        video: {
+          type: String,
+          value: "OpIQNxiKJoE",
+          observer: "changeVideo"
+        },
+        width: {
+          type: String,
+          value: "1920"
+        },
+        height: {
+          type: String,
+          value: "1016"
+        },
+        muted: {
+          type: Boolean,
+          value: false,
+          observer: "toggleMute"
+        },
+        volume: {
+          type: Number,
+          value: 1,
+          observer: "controlVolume"
+        }
+      },
+      controlVolume: function () {
+        try {
+          player.setVolume(this.volume * 100);
+        } catch (err) {}
+      },
+
+      toggleMute: function () {
+        try {
+          if (this.muted) {
+            player.mute();
+          } else {
+            player.unMute();
+          }
+        } catch (err) {}
+      },
+
+      changeVideo: function () {
+        try {
+          player.loadVideoById(this.channel);
+        } catch (err) {}
+      },
+
+      pauseVideo: function () {
+        try {
+          player.pauseVideo();
+        } catch (err) {}
+      },
+
+      playVideo: function () {
+        try {
+          player.playVideo();
+        } catch (err) {}
+      }
+    });
+  </script>
+</dom-module>

@@ -96,7 +96,7 @@
             </div>
           </app-toolbar>
         </app-header>
-        <neon-animated-pages selected="[[page]]" attr-for-selected="name" fallback-selection="logo" role="main" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+        <neon-animated-pages selected="[[page]]" attr-for-selected="name" fallback-selection="stream" role="main" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
           <stream-view name="stream"></stream-view>
           <schedule-view name="schedule"></schedule-view>
           <timer-view name="timer"></timer-view>
@@ -112,7 +112,7 @@
       properties: {
         page: {
           type: String,
-          value: "timer",
+          value: "stream",
           reflectToAttribute: true,
           observer: "_pageHandler"
         },

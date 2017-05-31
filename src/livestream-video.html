@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="livestream-video">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+      }
+
+      iframe {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+      }
+    </style>
+    <iframe id="ls_embed_14961772359" src="{{video}}width={{width}}&height={{height}}&enableInfo=false&defaultDrawer=feed&autoPlay=true&mute={{mute}}" width="{{width}}" height="{{height}}" frameborder="0" scrolling="no"> </iframe>
+    </script>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'livestream-video',
+      properties: {
+        video: {
+          type: String,
+          value: "https://livestream.com/accounts/17752602/events/7077043/videos/151001335/player?"
+        },
+        width: {
+          type: String,
+          value: "1920"
+        },
+        height: {
+          type: String,
+          value: "1016"
+        },
+        mute: {
+          type: String,
+          value: "false"
+        }
+      }
+    });
+  </script>
+</dom-module>

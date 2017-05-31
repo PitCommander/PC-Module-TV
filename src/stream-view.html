@@ -1,17 +1,44 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="twitch-video.html">
+<link rel="import" href="livestream-video.html">
+<link rel="import" href="youtube-video.html">
 <dom-module id="stream-view">
   <template>
     <style include="shared-styles">
-     :host {
-      display: block;
-      padding: 10px;
-    }
+      :host {
+        display: block;
+        padding: 0px;
+      }
     </style>
+    <template is="dom-if" if="{{isTwitch}}">
+      <twitch-video></twitch-video>
+    </template>
+    <template is="dom-if" if="{{isYoutube}}">
+      <youtube-video></youtube-video>
+    </template>
+    <template is="dom-if" if="{{isLivestream}}">
+      <livestream-video></livestream-video>
+    </template>
+
   </template>
   <script>
-  Polymer({
-    is: 'stream-view',
-  });
+    Polymer({
+      is: 'stream-view',
+      properties: {
+        isYoutube: {
+          type: Boolean,
+          value: false
+        },
+        isTwitch: {
+          type: Boolean,
+          value: false
+        },
+        isLivestream: {
+          type: Boolean,
+          value: true
+        }
+      }
+    });
   </script>
 </dom-module>

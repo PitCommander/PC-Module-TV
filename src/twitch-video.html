@@ -1,0 +1,99 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="twitch-video">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 0px;
+      }
+
+      .player {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+      }
+    </style>
+    <div id="player" class="player"></div>
+    <script type="text/javascript">
+      var options = {
+        width: 1920,
+        height: 1016,
+        channel: "firstinspires"
+      };
+      var player = new Twitch.Player("player", options);
+    </script>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'twitch-video',
+      properties: {
+        width: {
+          type: Number,
+          value: 160
+        },
+        height: {
+          type: Number,
+          value: 90
+        },
+        video: {
+          type: String,
+          value: "firstinspires",
+          observer: "changeChannel"
+        },
+        volume: {
+          type: Number,
+          value: 0.5,
+          observer: "controlVolume"
+        },
+        muted: {
+          type: Boolean,
+          value: false,
+          observer: "toggleMute"
+        }
+      },
+
+      ready: function () {
+        this.setUpTwitch();
+      },
+
+      setUpTwitch: function () {
+        try {
+          player.setChannel(this.video);
+          player.setMuted(this.muted);
+          player.setVolume(this.volume);
+        } catch (err) {}
+      },
+
+      controlVolume: function () {
+        try {
+          player.setVolume(this.volume);
+        } catch (err) {}
+      },
+
+      toggleMute: function () {
+        try {
+          player.setMuted(this.muted);
+        } catch (err) {}
+      },
+
+      changeVideo: function () {
+        try {
+          player.setChannel(this.video);
+        } catch (err) {}
+      },
+
+      pauseVideo: function () {
+        try {
+          player.pause();
+        } catch (err) {}
+      },
+
+      playVideo: function () {
+        try {
+          player.play();
+        } catch (err) {}
+      }
+    });
+  </script>
+</dom-module>
