@@ -64,6 +64,11 @@
           type: Number,
           value: 1,
           observer: "controlVolume"
+        },
+        paused: {
+          type: Boolean,
+          value: false,
+          observer: "togglePause"
         }
       },
       controlVolume: function () {
@@ -74,29 +79,19 @@
 
       toggleMute: function () {
         try {
-          if (this.muted) {
-            player.mute();
-          } else {
-            player.unMute();
-          }
+          this.muted ? player.mute() : player.unMute();
+        } catch (err) {}
+      },
+
+      togglePause: function () {
+        try {
+          this.paused ? player.pauseVideo() : player.playVideo();;
         } catch (err) {}
       },
 
       changeVideo: function () {
         try {
-          player.loadVideoById(this.channel);
-        } catch (err) {}
-      },
-
-      pauseVideo: function () {
-        try {
-          player.pauseVideo();
-        } catch (err) {}
-      },
-
-      playVideo: function () {
-        try {
-          player.playVideo();
+          player.loadVideoById(this.video);
         } catch (err) {}
       }
     });
