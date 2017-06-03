@@ -21,68 +21,67 @@
 <dom-module id="tv-app">
   <template>
     <style>
-      :host {
-        --app-primary-color: #d35401;
-        --app-secondary-color: black;
-        display: block;
-      }
-      
+     :host {
+      --app-primary-color: #d35401;
+      --app-secondary-color: black;
+      display: block;
+    }
+
+    .header-text {
+      font-size: 50px;
+      ;
+    }
+
+    @media (min-width: 1824px) {
       .header-text {
         font-size: 50px;
+      }
+      paper-tab {
+        font-size: 50px;
+      }
+      h1 {
+        font-size: 50px;
+      }
+    }
+
+    @media only screen and (max-width: 1823px) {
+      .header-text {
+        font-size: 20px;
         ;
       }
-      
-      @media only screen and (min-width: 1824px) {
-        .header-text {
-          font-size: 50px;
-          ;
-        }
-        paper-tab {
-          font-size: 50px;
-        }
-        h1 {
-          font-size: 50px;
-        }
+      paper-tab {
+        font-size: 20px;
       }
-      
-      @media only screen and (max-width: 1823px) {
-        .header-text {
-          font-size: 20px;
-          ;
-        }
-        paper-tab {
-          font-size: 20px;
-        }
-        h1 {
-          font-size: 20px;
-        }
+      h1 {
+        font-size: 20px;
       }
-      
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
-      
-      .big {
-        --iron-icon-height: 50px;
-        --iron-icon-width: 50px;
-      }
-      
-      logo-view {
-        background-color: red;
-        color: red;
-        color: green;
-      }
-      
-      .logoHidden {
-        opacity: 0;
-        transition: opacity 0.5s linear;
-      }
-      
-      .logoShown {
-        opacity: 1;
-        transition: opacity 0.5s linear;
-      }
+    }
+
+    app-header {
+      color: #fff;
+      background-color: var(--app-primary-color);
+    }
+
+    .big {
+      --iron-icon-height: 50px;
+      --iron-icon-width: 50px;
+    }
+
+    logo-view {
+      background-color: red;
+      color: red;
+      color: green;
+    }
+
+    .logoHidden {
+      opacity: 0;
+      transition: opacity 0.5s linear;
+    }
+
+    .logoShown {
+      opacity: 1;
+      transition: opacity 0.5s linear;
+    }
     </style>
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern=":/" data="{{routeData}}" tail="{{subroute}}"></app-route>
@@ -107,27 +106,27 @@
     </app-drawer-layout>
   </template>
   <script>
-    Polymer({
-      is: 'tv-app',
-      properties: {
-        page: {
-          type: String,
-          value: "stream",
-          reflectToAttribute: true,
-          observer: "_pageHandler"
-        },
-        screen: {
-          type: String,
-          value: "Left"
-        }
+  Polymer({
+    is: 'tv-app',
+    properties: {
+      page: {
+        type: String,
+        value: "timer",
+        reflectToAttribute: true,
+        observer: "_pageHandler"
       },
+      screen: {
+        type: String,
+        value: "Left"
+      }
+    },
 
-      _pageHandler: function () {
-        var logoPage = (this.page == 'logo');
-        this.toggleAttribute('active', (this.page === 'stream'), this.$.stream);
-        this.toggleClass('logoHidden', logoPage, this.$.teamLogo);
-        this.toggleClass('logoShown', !logoPage, this.$.teamLogo);
-      },
-    });
+    _pageHandler: function() {
+      var logoPage = (this.page == 'logo');
+      this.toggleAttribute('active', (this.page === 'stream'), this.$.stream);
+      this.toggleClass('logoHidden', logoPage, this.$.teamLogo);
+      this.toggleClass('logoShown', !logoPage, this.$.teamLogo);
+    },
+  });
   </script>
 </dom-module>

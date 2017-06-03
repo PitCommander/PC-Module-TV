@@ -3,96 +3,95 @@
 <dom-module id="twitch-video">
   <template>
     <style include="shared-styles">
-      :host {
-        display: block;
-        padding: 0px;
-      }
+     :host {
+      display: block;
+      padding: 0px;
+    }
 
-      .player {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex);
-      }
+    .player {
+      @apply(--layout-horizontal);
+      @apply(--layout-flex);
+    }
     </style>
     <div id="player" class="player"></div>
     <script type="text/javascript">
-      var options = {
-        width: 1920,
-        height: 1016,
-        channel: "{{video}}"
-      };
-      var player = new Twitch.Player("player", options);
+    var options = {
+      width: 1920,
+      height: 1016,
+      channel: "{{video}}"
+    };
+    var player = new Twitch.Player("player", options);
     </script>
-
   </template>
   <script>
-    Polymer({
-      is: 'twitch-video',
-      properties: {
-        width: {
-          type: Number,
-          value: 160
-        },
-        height: {
-          type: Number,
-          value: 90
-        },
-        video: {
-          type: String,
-          value: "firstinspires",
-          observer: "changeChannel"
-        },
-        volume: {
-          type: Number,
-          value: 1,
-          observer: "controlVolume"
-        },
-        muted: {
-          type: Boolean,
-          value: false,
-          observer: "toggleMute"
-        },
-        paused: {
-          type: Boolean,
-          value: false,
-          observer: "togglePause"
-        }
+  Polymer({
+    is: 'twitch-video',
+    properties: {
+      width: {
+        type: Number,
+        value: 160
       },
-
-      ready: function () {
-        this.setUpTwitch();
+      height: {
+        type: Number,
+        value: 90
       },
-
-      setUpTwitch: function () {
-        try {
-          player.setChannel(this.video);
-          player.setMuted(this.muted);
-          player.setVolume(this.volume);
-        } catch (err) {}
+      video: {
+        type: String,
+        value: "firstinspires",
+        observer: "changeChannel"
       },
-
-      controlVolume: function () {
-        try {
-          player.setVolume(this.volume);
-        } catch (err) {}
+      volume: {
+        type: Number,
+        value: 1,
+        observer: "controlVolume"
       },
-
-      toggleMute: function () {
-        try {
-          player.setMuted(this.muted);
-        } catch (err) {}
+      muted: {
+        type: Boolean,
+        value: false,
+        observer: "toggleMute"
       },
-
-      togglePause: function () {
-        try {
-          this.paused ? player.pause() : player.play();
-        } catch (err) {}
-      },
-
-      changeVideo: function () {
-        try {
-          player.setChannel(this.video);
-        } catch (err) {}
+      paused: {
+        type: Boolean,
+        value: false,
+        observer: "togglePause"
       }
-    });
+    },
+
+    ready: function() {
+      this.setUpTwitch();
+    },
+
+    setUpTwitch: function() {
+      try {
+        player.setChannel(this.video);
+        player.setMuted(this.muted);
+        player.setVolume(this.volume);
+      } catch (err) {}
+    },
+
+    controlVolume: function() {
+      try {
+        player.setVolume(this.volume);
+      } catch (err) {}
+    },
+
+    toggleMute: function() {
+      try {
+        player.setMuted(this.muted);
+      } catch (err) {}
+    },
+
+    togglePause: function() {
+      try {
+        this.paused ? player.pause() : player.play();
+      } catch (err) {}
+    },
+
+    changeVideo: function() {
+      try {
+        player.setChannel(this.video);
+      } catch (err) {}
+    }
+  });
   </script>
 </dom-module>

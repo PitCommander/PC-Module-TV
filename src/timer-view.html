@@ -10,10 +10,22 @@
     
     .blue {
       color: CornflowerBlue;
+      transition: all 1s linear;
     }
     
     .red {
       color: Crimson;
+      transition: all 1s linear;
+    }
+
+    .redText {
+      color: crimson;
+      transition: all 1s linear;
+    }
+
+    .blueText {
+      color: cornflowerblue;
+      transition: all 1s linear;
     }
     
     h1 {
@@ -32,8 +44,9 @@
     </div>
     <div class="card">
       <h2>Next match is {{nextNum}} at {{scheduledTime}} on the <span id="bumpers">{{bumperColor}}  alliance</span></h2>
-      <h2>Allies are: {{allies}}</h2>
-      <h2>Opponents are: {{oppo}}</h2>
+      <h2>Predicted play time is {{predictedTime}}</h2>
+      <h2 id="allies">Allies are: {{allies}}</h2>
+      <h2 id="opponents">Opponents are: {{oppo}}</h2>
     </div>
   </template>
   <script>
@@ -50,7 +63,11 @@
       },
       scheduledTime: {
         type: String,
-        value: '--:-- AM'
+        value: '--:--'
+      },
+      predictedTime: {
+        type: String,
+        value: '--:--'
       },
       bumperColor: {
         type: String,
@@ -71,17 +88,15 @@
     _bumperHandler: function() {
       var currentColor = this.bumperColor.toLowerCase();
 
-      if (currentColor == 'red') {
-        this.$.bumpers.classList.remove('blue');
-        this.$.bumpers.classList.add('red');
-      } else if (currentColor == 'blue') {
-        this.$.bumpers.classList.remove('red');
-        this.$.bumpers.classList.add('blue');
-      } else {
-        this.$.bumpers.classList.remove('red');
-        this.$.bumpers.classList.remove('blue');
-      }
-    }
+      var isRed = (currentColor == 'red')
+      var isBlue = (currentColor == 'blue')
+      this.toggleClass('redText', isRed, this.$.allies);
+      this.toggleClass('blueText', isBlue, this.$.allies);
+      this.toggleClass('redText', isBlue, this.$.opponents);
+      this.toggleClass('blueText', isRed, this.$.opponents);
+      this.toggleClass('blue', isBlue, this.$.bumpers);
+      this.toggleClass('red', isRed, this.$.bumpers);
+    },
   });
   </script>
 </dom-module>

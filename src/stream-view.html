@@ -6,10 +6,10 @@
 <dom-module id="stream-view">
   <template>
     <style include="shared-styles">
-      :host {
-        display: block;
-        padding: 0px;
-      }
+     :host {
+      display: block;
+      padding: 0px;
+    }
     </style>
     <template is="dom-if" if="{{isTwitch}}">
       <twitch-video muted="{{muted}}" paused="{{paused}}"></twitch-video>
@@ -20,63 +20,62 @@
     <template is="dom-if" if="{{isLivestream}}">
       <livestream-video muted="{{muted}}" paused="{{paused}}"></livestream-video>
     </template>
-
   </template>
   <script>
-    Polymer({
-      is: 'stream-view',
-      properties: {
-        isYoutube: {
-          type: Boolean,
-          value: true
-        },
-        isTwitch: {
-          type: Boolean,
-          value: false
-        },
-        isLivestream: {
-          type: Boolean,
-          value: false
-        },
-        active: {
-          type: Boolean,
-          value: false,
-        },
-        streamType: {
-          type: String,
-          value: 'youtube'
-        },
-        muted: {
-          type: Boolean,
-          value: false
-        },
-        paused: {
-          type: Boolean,
-          value: true
-        },
-        video: {
-          type: String,
-          value: ''
-        }
+  Polymer({
+    is: 'stream-view',
+    properties: {
+      isYoutube: {
+        type: Boolean,
+        value: false
       },
-      observers: [
-        "controlPlay(active, paused)",
-        "controlStream(stream, isYoutube, isTwitch, isLivestream)"
-      ],
-
-      controlPlay: function (active, paused) {
-        if (active) {
-          this.paused = false;
-        } else {
-          this.paused = true;
-        }
+      isTwitch: {
+        type: Boolean,
+        value: false
       },
-
-      controlStream(stream, isYoutube, isTwitch, isLivestream) {
-        this.isLivestream = (stream === 'livestream');
-        this.isTwitch = (stream === 'twitch');
-        this.isYoutube = (stream === 'youtube');
+      isLivestream: {
+        type: Boolean,
+        value: false
+      },
+      active: {
+        type: Boolean,
+        value: false,
+      },
+      streamType: {
+        type: String,
+        value: 'youtube'
+      },
+      muted: {
+        type: Boolean,
+        value: false
+      },
+      paused: {
+        type: Boolean,
+        value: true
+      },
+      video: {
+        type: String,
+        value: ''
       }
-    });
+    },
+    observers: [
+      "controlPlay(active, paused)",
+      "controlStream(streamType, isYoutube, isTwitch, isLivestream)"
+    ],
+
+    controlPlay: function(active, paused) {
+      if (active) {
+        this.paused = false;
+      } else {
+        this.paused = true;
+      }
+    },
+
+    controlStream(streamType, isYoutube, isTwitch, isLivestream) {
+      this.isLivestream = (streamType === 'livestream');
+      this.isTwitch = (streamType === 'twitch');
+      this.isYoutube = (streamType === 'youtube');
+    }
+  });
   </script>
 </dom-module>

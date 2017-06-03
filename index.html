@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="PC-TV">
-  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
   <title>PC-TV</title>
   <meta name="description" content="FRC401 Pit UI">
   <link rel="icon" href="/images/favicon.ico">
@@ -15,36 +15,36 @@
   <script src="announce.js"></script>
   <script src="http://player.twitch.tv/js/embed/v1.js"></script>
   <script>
-    // Setup Polymer options
-    window.Polymer = {
-      dom: 'shady',
-      lazyRegister: true,
+  // Setup Polymer options
+  window.Polymer = {
+    dom: 'shady',
+    lazyRegister: true,
+  };
+
+  (function() {
+    'use strict';
+
+    var onload = function() {
+      if (!window.HTMLImports) {
+        document.dispatchEvent(
+          new CustomEvent('WebComponentsReady', {
+            bubbles: true
+          })
+        );
+      }
     };
-
-    (function () {
-      'use strict';
-
-      var onload = function () {
-        if (!window.HTMLImports) {
-          document.dispatchEvent(
-            new CustomEvent('WebComponentsReady', {
-              bubbles: true
-            })
-          );
-        }
-      };
-      onload();
-    })();
+    onload();
+  })();
   </script>
   <link rel="import" href="src/tv-app.html">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Roboto', 'Noto', sans-serif;
-      line-height: 1.5;
-      min-height: 100vh;
-      background-color: #eeeeee;
-    }
+  body {
+    margin: 0;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    background-color: #eeeeee;
+  }
   </style>
 </head>
 
