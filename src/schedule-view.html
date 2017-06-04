@@ -4,58 +4,62 @@
 <dom-module id="schedule-view">
   <template>
     <style include="shared-styles">
-     :host {
-      display: block;
-      padding: 10px;
-    }
-    
-    h2 {
-      text-align: center;
-      font-size: 50px;
-      margin: 0px;
-      padding: 0px;
-    }
-    
-    paper-datatable {
-      --paper-datatable-cell {
-        align-content: center;
-        text-align: center;
-        font-size: 20px;
-        align-self: center;
-        align-items: center;
+      :host {
+        display: block;
+        padding: 0px;
       }
-    }
+
+      h2 {
+        text-align: center;
+        font-size: 50px;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      paper-datatable {}
+
+      .content {
+        color: #757575;
+        background-color: #fff;
+      }
     </style>
-    <div class="card">
+
+    <div class="content">
       <h2>Current Record: {{record}}</h2>
-    </div>
-    <div class="card">
       <paper-datatable data="{{data}}">
-        <paper-datatable-column header="Match #" property="number" style="font-size: 30px" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Time" property="schedString" style="font-size: 30px" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Pred Time" property="predString" style="font-size: 30px" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Color" property="alliance" style="font-size: 30px" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Result" property="outcome" style="font-size: 30px" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Match #" property="matchNumber" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Time" property="schedString" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Pred Time" property="predString" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Color" property="bumperColor" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Allies" property="allyString" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Opponents" property="opponents" cell-style="{{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Red Score" property="redScore" cell-style="background: Crimson; {{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Blue Score" property="blueScore" cell-style="background: CornflowerBlue; {{style}}" align="center"></paper-datatable-column>
+        <paper-datatable-column header="Result" property="result" align="center"></paper-datatable-column>
       </paper-datatable>
     </div>
   </template>
   <script>
-  Polymer({
-    is: 'schedule-view',
-    properties: {
-      record: {
-        type: String,
-        value: ' - - '
+    Polymer({
+      is: 'schedule-view',
+      properties: {
+        record: {
+          type: String,
+          value: ' - - '
+        },
+        data: {
+          type: Array,
+          value: []
+        },
+        record: {
+          type: String,
+          value: ' - - '
+        },
+        style: {
+          type: String,
+          value: "font-size: 20px; margin: 0px; padding: 0px;"
+        }
       },
-      data: {
-        type: Array,
-        value: []
-      },
-      record: {
-        type: String,
-        value: ' - - '
-      },
-    },
-  });
+    });
   </script>
 </dom-module>
