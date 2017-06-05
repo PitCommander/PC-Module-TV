@@ -23,7 +23,8 @@
     "paper-datatable": "^0.9.8",
     "iron-icons": "PolymerElements/iron-icons#^2.0.0",
     "iron-image": "PolymerElements/iron-image#^2.0.0",
-    "mp-video": "mpachnis/mp-video#^1.0.2"
+    "mp-video": "mpachnis/mp-video#^1.0.2",
+    "vaadin-grid": "1.x"
   },
   "private": true,
   "resolutions": {

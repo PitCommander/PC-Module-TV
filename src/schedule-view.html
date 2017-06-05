@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="shared-styles.html">
 <dom-module id="schedule-view">
   <template>
@@ -16,27 +16,49 @@
         padding: 0px;
       }
 
-      paper-datatable {}
-
-      .content {
-        color: #757575;
-        background-color: #fff;
+      vaadin-grid {
+        --primary-color: var(--app-primary-color);
+        --vaadin-grid-row-stripe-cell: {
+          background: WhiteSmoke;
+        }
+        --vaadin-grid-row-cell: {
+          font-size: 30px;
+          text-align: center;
+          margin: 0px;
+        }
       }
     </style>
 
     <div class="content">
       <h2>Current Record: {{record}}</h2>
-      <paper-datatable data="{{data}}">
-        <paper-datatable-column header="Match #" property="matchNumber" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Time" property="schedString" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Pred Time" property="predString" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Color" property="bumperColor" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Allies" property="allyString" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Opponents" property="opponents" cell-style="{{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Red Score" property="redScore" cell-style="background: Crimson; {{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Blue Score" property="blueScore" cell-style="background: CornflowerBlue; {{style}}" align="center"></paper-datatable-column>
-        <paper-datatable-column header="Result" property="result" align="center"></paper-datatable-column>
-      </paper-datatable>
+      <vaadin-grid id="grid" items="[[data]]" visible-rows="[[data.length]]">
+        <table>
+          <colgroup>
+            <col name="matchNumber"></col>
+            <col name="schedString"></col>
+            <col name="predString"></col>
+            <col name="bumperColor"></col>
+            <col name="allyString"></col>
+            <col name="opponents"></col>
+            <col name="redScore"></col>
+            <col name="blueScore"></col>
+            <col name="result"></col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th><b>Match #</b></th>
+              <th><b>Scheduled Time</th>
+              <th><b>Predicted Time</b></th>
+              <th><b>Bumper Color</b></th>
+              <th><b>Allies</b></th>
+              <th><b>Opponents</b></th>
+              <th><b>Red Score</b></th>
+              <th><b>Blue Score</b></th>
+              <th><b>Result</b></th>
+            </tr>
+          </thead>
+        </table>
+      </vaadin-grid>
     </div>
   </template>
   <script>
@@ -45,11 +67,11 @@
       properties: {
         record: {
           type: String,
-          value: ' - - '
+          value: '- - -'
         },
         data: {
           type: Array,
-          value: []
+          value: [],
         },
         record: {
           type: String,
@@ -57,7 +79,7 @@
         },
         style: {
           type: String,
-          value: "font-size: 20px; margin: 0px; padding: 0px;"
+          value: "font-size: 30px; margin: 0px; padding: 0px;"
         }
       },
     });

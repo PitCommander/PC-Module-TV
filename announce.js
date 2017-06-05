@@ -2,7 +2,7 @@ var vol = require('vol');
 var zmq = require('zeromq'),
   sock = zmq.socket('sub');
 
-sock.connect('tcp://10.0.0.7:5800');
+sock.connect('tcp://10.0.0.5:5800');
 sock.subscribe('');
 sock.on('message', function (message) {
   var messageObj = JSON.parse(message);
@@ -15,18 +15,26 @@ sock.on('message', function (message) {
 
   switch (messageObj.id) {
   case 'TimeTick':
-    timeTickHandler(data, timerView);
+    try {
+      timeTickHandler(data, timerView);
+    } catch (err) {}
     break;
   case 'MatchContainerUpdate':
     data = data.container;
-    matchContainerHandler(data, timerView, scheduleView)
+    try {
+      matchContainerHandler(data, timerView, scheduleView)
+    } catch (err) {}
     break;
   case 'TV_SET':
-    tvHandler(data, tv);
+    try {
+      tvHandler(data, tv);
+    } catch (err) {}
     break;
   case 'GeneralContainerUpdate':
     data = data.container;
-    generalContainerHandler(data, streamView);
+    try {
+      generalContainerHandler(data, streamView);
+    } catch (err) {}
     break;
   }
 });
