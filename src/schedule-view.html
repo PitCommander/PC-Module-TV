@@ -4,7 +4,7 @@
 <dom-module id="schedule-view">
   <template>
     <style include="shared-styles">
-      :host {
+    :host {
         display: block;
         padding: 0px;
       }
@@ -19,9 +19,9 @@
       iron-data-table {
         line-height: 1.59;
         font-size: 30px;
-        height: 925px;
+        height: 941px;
         --iron-data-table-row-odd: {
-          background-color: white;
+          background-color: whitesmoke;
         }
         --iron-data-table-row: {
           border-bottom: none;
@@ -92,6 +92,12 @@
         width: 100%;
         text-align: center;
       }
+
+      .content {
+        color: #757575;
+        background-color: #fff;
+      }
+    }
     </style>
 
     <div class="content">
@@ -121,7 +127,7 @@
             <div class="th">[[item.predString]]</div>
           </template>
         </data-table-column>
-        <data-table-column name="Bumpers" flex="2">
+        <data-table-column name="Bumpers" flex="1">
           <template is="header">
             <div class="th">Bumpers</div>
           </template>
@@ -142,7 +148,7 @@
             <div class="th">Opponents</div>
           </template>
           <template>
-            <div class$="{{oppoColor(item.bumperColor)}}">[[item.opponents]]</div>
+            <div class$="{{oppoColor(item.bumperColor)}}">[[item.oppoString]]</div>
           </template>
         </data-table-column>
         <data-table-column name="Red Score" flex="1">

@@ -92,7 +92,8 @@ function matchContainerHandler(data, timerView, scheduleView) {
 
     e.schedString = schedString;
     e.predString = predString;
-    e.allyString = e.allies.filter(ignoreOurTeam);
+    e.allyString = e.allies.filter(ignoreOurTeam).join(', ');
+    e.oppoString = e.opponents.join(', ');
 
     var result = "LOSS"
     if (e.bumperColor === e.winner) {
