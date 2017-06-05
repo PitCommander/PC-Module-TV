@@ -2,7 +2,7 @@ var vol = require('vol');
 var zmq = require('zeromq'),
   sock = zmq.socket('sub');
 
-sock.connect('tcp://10.0.0.5:5800');
+sock.connect('tcp://10.0.0.2:5800');
 sock.subscribe('');
 sock.on('message', function (message) {
   var messageObj = JSON.parse(message);

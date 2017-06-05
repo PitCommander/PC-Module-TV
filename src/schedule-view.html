@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="shared-styles.html">
 <dom-module id="schedule-view">
   <template>
@@ -16,50 +16,167 @@
         padding: 0px;
       }
 
-      vaadin-grid {
-        --primary-color: var(--app-primary-color);
-        --vaadin-grid-row-stripe-cell: {
-          background: WhiteSmoke;
+      iron-data-table {
+        line-height: 1.59;
+        font-size: 30px;
+        height: 925px;
+        --iron-data-table-row-odd: {
+          background-color: white;
         }
-        --vaadin-grid-row-cell: {
-          font-size: 30px;
-          text-align: center;
-          margin: 0px;
+        --iron-data-table-row: {
+          border-bottom: none;
         }
+      }
+
+      .RED {
+        font-weight: 100;
+        color: white;
+        background-color: crimson;
+        width: 100%;
+        text-align: center;
+      }
+
+      .BLUE {
+        font-weight: 100;
+        color: white;
+        background-color: cornflowerblue;
+        width: 100%;
+        text-align: center;
+      }
+
+      .redWin {
+        font-weight: 900;
+        color: white;
+        background-color: crimson;
+        width: 100%;
+        text-align: center;
+      }
+
+      .blueWin {
+        font-weight: 900;
+        color: white;
+        background-color: cornflowerblue;
+        width: 100%;
+        text-align: center;
+      }
+
+      .cellPadder {
+        padding: 0px 1px 0px 0px;
+      }
+
+      .th {
+        width: 100%;
+        text-align: center;
+      }
+
+      .WIN {
+        font-weight: 900;
+        background-color: forestgreen;
+        color: white;
+        width: 100%;
+        text-align: center;
+      }
+
+      .LOSS {
+        font-weight: 100;
+        background-color: black;
+        color: white;
+        width: 100%;
+        text-align: center;
+      }
+
+      .TIE {
+        font-weight: 300;
+        background-color: yellow;
+        color: black;
+        width: 100%;
+        text-align: center;
       }
     </style>
 
     <div class="content">
       <h2>Current Record: {{record}}</h2>
-      <vaadin-grid id="grid" items="[[data]]" visible-rows="[[data.length]]">
-        <table>
-          <colgroup>
-            <col name="matchNumber"></col>
-            <col name="schedString"></col>
-            <col name="predString"></col>
-            <col name="bumperColor"></col>
-            <col name="allyString"></col>
-            <col name="opponents"></col>
-            <col name="redScore"></col>
-            <col name="blueScore"></col>
-            <col name="result"></col>
-          </colgroup>
-          <thead>
-            <tr>
-              <th><b>Match #</b></th>
-              <th><b>Scheduled Time</th>
-              <th><b>Predicted Time</b></th>
-              <th><b>Bumper Color</b></th>
-              <th><b>Allies</b></th>
-              <th><b>Opponents</b></th>
-              <th><b>Red Score</b></th>
-              <th><b>Blue Score</b></th>
-              <th><b>Result</b></th>
-            </tr>
-          </thead>
-        </table>
-      </vaadin-grid>
+      <iron-data-table id="grid" items="[[data]]">
+        <data-table-column name="Match #" flex="1">
+          <template is="header">
+            <div class="th">Match #</div>
+          </template>
+          <template>
+            <div class="th">[[item.matchNumber]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Scheduled" flex="2">
+          <template is="header">
+            <div class="th">Scheduled</div>
+          </template>
+          <template>
+            <div class="th">[[item.schedString]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Predicted" flex="2">
+          <template is="header">
+            <div class="th">Predicted</div>
+          </template>
+          <template>
+            <div class="th">[[item.predString]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Bumpers" flex="2">
+          <template is="header">
+            <div class="th">Bumpers</div>
+          </template>
+          <template>
+            <div class$="[[item.bumperColor]]">[[item.bumperColor]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Allies" flex="2">
+          <template is="header">
+            <div class="th">Allies</div>
+          </template>
+          <template>
+            <div class$="[[item.bumperColor]]">[[item.allyString]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Opponents" flex="3">
+          <template is="header">
+            <div class="th">Opponents</div>
+          </template>
+          <template>
+            <div class$="{{oppoColor(item.bumperColor)}}">[[item.opponents]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Red Score" flex="1">
+          <template is="header">
+            <div class="th">Red Score</div>
+          </template>
+          <template>
+            <div class$="{{redCalc(item.redScore, item.blueScore)}}">[[item.redScore]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Blue Score" flex="1">
+          <template is="header">
+            <div class="th">Blue Score</div>
+          </template>
+          <template>
+            <div class$="{{blueCalc(item.redScore, item.blueScore)}}">[[item.blueScore]]</div>
+          </template>
+        </data-table-column>
+        <data-table-column name="Result" flex="0">
+          <template is="header">
+            <div class="th">Result</div>
+          </template>
+          <template>
+            <div class$="[[item.result]]">[[item.result]]</div>
+          </template>
+        </data-table-column>
+      </iron-data-table>
     </div>
+
+    <script>
+      document.querySelector('#grid').beforeCellBind = function (data, cell) {
+        cell.classList.add('cellPadder');
+      }
+    </script>
   </template>
   <script>
     Polymer({
@@ -76,12 +193,20 @@
         record: {
           type: String,
           value: ' - - '
-        },
-        style: {
-          type: String,
-          value: "font-size: 30px; margin: 0px; padding: 0px;"
         }
       },
+
+      oppoColor: function (color) {
+        return (color === 'RED') ? 'BLUE' : 'RED';
+      },
+
+      redCalc: function (red, blue) {
+        return (red >= blue) ? 'redWin' : 'RED';
+      },
+
+      blueCalc: function (red, blue) {
+        return (blue >= red) ? 'blueWin' : 'BLUE';
+      }
     });
   </script>
 </dom-module>
