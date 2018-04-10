@@ -2,216 +2,216 @@
 <link rel="import" href="../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="shared-styles.html">
 <dom-module id="schedule-view">
-  <template>
-    <style include="shared-styles">
-    :host {
-        display: block;
-        padding: 0px;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 0px;
+            }
 
-      h2 {
-        text-align: center;
-        font-size: 50px;
-        margin: 0px;
-        padding: 0px;
-      }
+            h2 {
+                text-align: center;
+                font-size: 50px;
+                margin: 0px;
+                padding: 0px;
+            }
 
-      iron-data-table {
-        line-height: 1.14;
-        font-size: 35px;
-        height: 941px;
-        --iron-data-table-row-odd: {
-          background-color: whitesmoke;
-        }
-        --iron-data-table-row: {
-          height: 40px;
-          border-bottom: none;
-        }
-        --iron-data-table-header: {
-          height: 48px;
-        }
-      }
+            iron-data-table {
+                line-height: 1.14;
+                font-size: 35px;
+                height: 941px;
+                --iron-data-table-row-odd: {
+                    background-color: whitesmoke;
+                } --iron-data-table-row: {
+                height: 40px;
+                border-bottom: none;
+            } --iron-data-table-header: {
+                height: 48px;
+            }
+            }
 
-      .RED {
-        font-weight: 100;
-        color: white;
-        background-color: crimson;
-        width: 100%;
-        text-align: center;
-      }
+            .RED {
+                font-weight: 100;
+                color: white;
+                background-color: crimson;
+                width: 100%;
+                text-align: center;
+            }
 
-      .BLUE {
-        font-weight: 100;
-        color: white;
-        background-color: cornflowerblue;
-        width: 100%;
-        text-align: center;
-      }
+            .BLUE {
+                font-weight: 100;
+                color: white;
+                background-color: cornflowerblue;
+                width: 100%;
+                text-align: center;
+            }
 
-      .redWin {
-        font-weight: 900;
-        color: white;
-        background-color: crimson;
-        width: 100%;
-        text-align: center;
-      }
+            .redWin {
+                font-weight: 900;
+                color: yellow;
+                background-color: crimson;
+                width: 100%;
+                text-align: center;
+            }
 
-      .blueWin {
-        font-weight: 900;
-        color: white;
-        background-color: cornflowerblue;
-        width: 100%;
-        text-align: center;
-      }
+            .blueWin {
+                font-weight: 900;
+                color: yellow;
+                background-color: cornflowerblue;
+                width: 100%;
+                text-align: center;
+            }
 
-      .cellPadder {
-        padding: 0px 1px 0px 0px;
-        height: 40px;
-      }
+            .cellPadder {
+                padding: 0px 1px 0px 0px;
+                height: 40px;
+            }
 
-      .th {
-        width: 100%;
-        text-align: center;
-        height: 40px;
-      }
+            .th {
+                width: 100%;
+                text-align: center;
+                height: 40px;
+            }
 
-      .WIN {
-        font-weight: 900;
-        background-color: forestgreen;
-        color: white;
-        width: 100%;
-        text-align: center;
-      }
+            .WIN {
+                font-weight: 900;
+                background-color: forestgreen;
+                color: white;
+                width: 100%;
+                text-align: center;
+            }
 
-      .LOSS {
-        font-weight: 100;
-        background-color: black;
-        color: white;
-        width: 100%;
-        text-align: center;
-      }
+            .LOSS {
+                font-weight: 100;
+                background-color: black;
+                color: white;
+                width: 100%;
+                text-align: center;
+            }
 
-      .TIE {
-        font-weight: 300;
-        background-color: yellow;
-        color: black;
-        width: 100%;
-        text-align: center;
-      }
+            .TIE {
+                font-weight: 300;
+                background-color: yellow;
+                color: black;
+                width: 100%;
+                text-align: center;
+            }
 
-      .content {
-        color: #757575;
-        background-color: #fff;
-      }
-    }
-    </style>
+            .content {
+                color: #757575;
+                background-color: #fff;
+            }
 
-    <div class="content">
-      <h2>Current Record: {{record}}</h2>
-      <iron-data-table id="grid" items="[[data]]">
-        <data-table-column name="Match #" flex="1">
-          <template is="header">
-            <div class="th">Match #</div>
-          </template>
-          <template>
-            <div class="th">[[item.matchNumber]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Scheduled" flex="2">
-          <template is="header">
-            <div class="th">Scheduled Time</div>
-          </template>
-          <template>
-            <div class="th">[[item.schedString]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Predicted" flex="2">
-          <template is="header">
-            <div class="th">Predicted Time</div>
-          </template>
-          <template>
-            <div class="th">[[item.predString]]</div>
-          </template>
-        </data-table-column>
-
-        <data-table-column name="Allies" flex="2">
-          <template is="header">
-            <div class="th">Alliance Members</div>
-          </template>
-          <template>
-            <div class$="[[item.bumperColor]]">[[item.allyString]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Opponents" flex="3">
-          <template is="header">
-            <div class="th">Opponents</div>
-          </template>
-          <template>
-            <div class$="{{oppoColor(item.bumperColor)}}">[[item.oppoString]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Red Score" flex="1">
-          <template is="header">
-            <div class="th">Red Score</div>
-          </template>
-          <template>
-            <div class$="{{redCalc(item.redScore, item.blueScore)}}">[[item.redScore]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Blue Score" flex="1">
-          <template is="header">
-            <div class="th">Blue Score</div>
-          </template>
-          <template>
-            <div class$="{{blueCalc(item.redScore, item.blueScore)}}">[[item.blueScore]]</div>
-          </template>
-        </data-table-column>
-        <data-table-column name="Result" flex="0">
-          <template is="header">
-            <div class="th">Result</div>
-          </template>
-          <template>
-            <div class$="[[item.result]]">[[item.result]]</div>
-          </template>
-        </data-table-column>
-      </iron-data-table>
-    </div>
-
+            }
+        </style>
+        <div class="content">
+            <h2>Current Record: {{record}}</h2>
+            <iron-data-table id="grid" items="[[data]]">
+                <data-table-column name="Match #" flex="1">
+                    <template is="header">
+                        <div class="th">Match #</div>
+                    </template>
+                    <template>
+                        <div class="th">[[item.matchNumber]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Scheduled" flex="2">
+                    <template is="header">
+                        <div class="th">Scheduled Time</div>
+                    </template>
+                    <template>
+                        <div class="th">[[item.schedString]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Predicted" flex="2">
+                    <template is="header">
+                        <div class="th">Predicted Time</div>
+                    </template>
+                    <template>
+                        <div class="th">[[item.predString]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Allies" flex="2">
+                    <template is="header">
+                        <div class="th">Alliance Members</div>
+                    </template>
+                    <template>
+                        <div class$="[[item.bumperColor]]">[[item.allyString]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Opponents" flex="3">
+                    <template is="header">
+                        <div class="th">Opponents</div>
+                    </template>
+                    <template>
+                        <div class$="{{oppoColor(item.bumperColor)}}">[[item.oppoString]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Red Score" flex="1">
+                    <template is="header">
+                        <div class="th">Red Score</div>
+                    </template>
+                    <template>
+                        <div class$="{{redCalc(item.redScore, item.blueScore)}}">[[item.redScore]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Blue Score" flex="1">
+                    <template is="header">
+                        <div class="th">Blue Score</div>
+                    </template>
+                    <template>
+                        <div class$="{{blueCalc(item.redScore, item.blueScore)}}">[[item.blueScore]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Result" flex="0">
+                    <template is="header">
+                        <div class="th">Result</div>
+                    </template>
+                    <template>
+                        <div class$="[[item.result]]">[[item.result]]</div>
+                    </template>
+                </data-table-column>
+            </iron-data-table>
+        </div>
+        <script>
+            document.querySelector('#grid').beforeCellBind = function (data, cell) {
+                cell.classList.add('cellPadder');
+            }
+        </script>
+    </template>
     <script>
-      document.querySelector('#grid').beforeCellBind = function (data, cell) {
-        cell.classList.add('cellPadder');
-      }
+        Polymer({
+            is: 'schedule-view',
+            properties: {
+                record: {
+                    type: String,
+                    value: '- - -'
+                },
+                data: {
+                    type: Array,
+                    value: [],
+                },
+                record: {
+                    type: String,
+                    value: ' - - '
+                }
+            },
+
+            oppoColor: function (color) {
+                return (color === 'RED') ? 'BLUE' : 'RED';
+            },
+
+            redCalc: function (red, blue) {
+                return (red >= blue) ? 'redWin' : 'RED';
+            },
+
+            blueCalc: function (red, blue) {
+                return (blue >= red) ? 'blueWin' : 'BLUE';
+            },
+
+            ready: function() {
+                sendMatchContainerRequest();
+            }
+        });
     </script>
-  </template>
-  <script>
-    Polymer({
-      is: 'schedule-view',
-      properties: {
-        record: {
-          type: String,
-          value: '- - -'
-        },
-        data: {
-          type: Array,
-          value: [],
-        },
-        record: {
-          type: String,
-          value: ' - - '
-        }
-      },
-
-      oppoColor: function (color) {
-        return (color === 'RED') ? 'BLUE' : 'RED';
-      },
-
-      redCalc: function (red, blue) {
-        return (red >= blue) ? 'redWin' : 'RED';
-      },
-
-      blueCalc: function (red, blue) {
-        return (blue >= red) ? 'blueWin' : 'BLUE';
-      }
-    });
-  </script>
 </dom-module>

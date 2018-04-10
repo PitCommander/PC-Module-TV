@@ -63,7 +63,7 @@
       "controlStream(streamType, isYoutube, isTwitch, isLivestream)"
     ],
 
-    controlPlay: function(active, paused) {
+    controlPlay: function(active) {
       if (active) {
         this.paused = false;
       } else {
@@ -71,7 +71,7 @@
       }
     },
 
-    controlStream(streamType, isYoutube, isTwitch, isLivestream) {
+    controlStream: function (streamType) {
       this.isLivestream = (streamType === 'livestream');
       this.isTwitch = (streamType === 'twitch');
       this.isYoutube = (streamType === 'youtube');

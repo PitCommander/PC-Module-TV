@@ -1,102 +1,107 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <dom-module id="timer-view">
-  <template>
-    <style include="shared-styles">
-     :host {
-      display: block;
-      padding: 10px;
-    }
-    
-    .blue {
-      color: CornflowerBlue;
-      transition: all 1s linear;
-    }
-    
-    .red {
-      color: Crimson;
-      transition: all 1s linear;
-    }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
 
-    .redText {
-      color: crimson;
-      transition: all 1s linear;
-    }
+            .blue {
+                color: CornflowerBlue;
+                transition: all 1s linear;
+            }
 
-    .blueText {
-      color: cornflowerblue;
-      transition: all 1s linear;
-    }
-    
-    h1 {
-      font-size: 120px;
-      text-align: center;
-    }
-    
-    h2 {
-      margin: 0px;
-      font-size: 50px;
-    }
-    </style>
-    <div class="card">
-      <h2>Leave for next match in:</h2>
-      <h1>{{ttz}}</h1>
-    </div>
-    <div class="card">
-      <h2>Next match is {{nextNum}} at {{scheduledTime}} on the <span id="bumpers">{{bumperColor}}  alliance</span></h2>
-      <h2>Predicted play time is {{predictedTime}}</h2>
-      <h2 id="allies">Allies are: {{allies}}</h2>
-      <h2 id="opponents">Opponents are: {{oppo}}</h2>
-    </div>
-  </template>
-  <script>
-  Polymer({
-    is: 'timer-view',
-    properties: {
-      ttz: {
-        type: String,
-        value: '0h 0m 0s'
-      },
-      nextNum: {
-        type: String,
-        value: 'QM--'
-      },
-      scheduledTime: {
-        type: String,
-        value: '--:--'
-      },
-      predictedTime: {
-        type: String,
-        value: '--:--'
-      },
-      bumperColor: {
-        type: String,
-        value: 'blue',
-        observer: '_bumperHandler'
-      },
+            .red {
+                color: Crimson;
+                transition: all 1s linear;
+            }
 
-      allies: {
-        type: String,
-        value: '- - -'
-      },
-      oppo: {
-        type: String,
-        value: '- - -'
-      },
-    },
+            .redText {
+                color: crimson;
+                transition: all 1s linear;
+            }
 
-    _bumperHandler: function() {
-      var currentColor = this.bumperColor.toLowerCase();
+            .blueText {
+                color: cornflowerblue;
+                transition: all 1s linear;
+            }
 
-      var isRed = (currentColor == 'red')
-      var isBlue = (currentColor == 'blue')
-      this.toggleClass('redText', isRed, this.$.allies);
-      this.toggleClass('blueText', isBlue, this.$.allies);
-      this.toggleClass('redText', isBlue, this.$.opponents);
-      this.toggleClass('blueText', isRed, this.$.opponents);
-      this.toggleClass('blue', isBlue, this.$.bumpers);
-      this.toggleClass('red', isRed, this.$.bumpers);
-    },
-  });
-  </script>
+            h1 {
+                font-size: 120px;
+                text-align: center;
+            }
+
+            h2 {
+                margin: 0px;
+                font-size: 50px;
+            }
+        </style>
+        <div class="card">
+            <h2>Leave for next match in:</h2>
+            <h1>{{ttz}}</h1>
+        </div>
+        <div class="card">
+            <h2>Next match is {{nextNum}} at {{scheduledTime}} on the <span
+                    id="bumpers">{{bumperColor}}  alliance</span></h2>
+            <h2>Predicted play time is {{predictedTime}}</h2>
+            <h2 id="allies">Allies are: {{allies}}</h2>
+            <h2 id="opponents">Opponents are: {{oppo}}</h2>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'timer-view',
+            properties: {
+                ttz: {
+                    type: String,
+                    value: '0h 0m 0s'
+                },
+                nextNum: {
+                    type: String,
+                    value: 'QM--'
+                },
+                scheduledTime: {
+                    type: String,
+                    value: '--:--'
+                },
+                predictedTime: {
+                    type: String,
+                    value: '--:--'
+                },
+                bumperColor: {
+                    type: String,
+                    value: 'blue',
+                    observer: '_bumperHandler'
+                },
+
+                allies: {
+                    type: String,
+                    value: '- - -'
+                },
+                oppo: {
+                    type: String,
+                    value: '- - -'
+                },
+            },
+
+            _bumperHandler: function () {
+                var currentColor = this.bumperColor.toLowerCase();
+
+                var isRed = (currentColor == 'red')
+                var isBlue = (currentColor == 'blue')
+                this.toggleClass('redText', isRed, this.$.allies);
+                this.toggleClass('blueText', isBlue, this.$.allies);
+                this.toggleClass('redText', isBlue, this.$.opponents);
+                this.toggleClass('blueText', isRed, this.$.opponents);
+                this.toggleClass('blue', isBlue, this.$.bumpers);
+                this.toggleClass('red', isRed, this.$.bumpers);
+            },
+
+            ready: function () {
+                sendMatchContainerRequest();
+            }
+        });
+    </script>
 </dom-module>

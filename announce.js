@@ -1,134 +1,228 @@
 var vol = require('vol');
-var zmq = require('zeromq'),
-  sock = zmq.socket('sub');
+var fs = require('fs');
+var zmq = require('zeromq');
 
-sock.connect('tcp://10.0.0.2:5800');
-sock.subscribe('');
-sock.on('message', function (message) {
-  var messageObj = JSON.parse(message);
-  var data = messageObj.payload;
+var teamNum = 401;
+var tz = "America/New_York";
 
-  var tv = document.querySelector('tv-app');
-  var timerView = document.querySelector('timer-view');
-  var scheduleView = document.querySelector('schedule-view');
-  var streamView = document.querySelector('stream-view');
+//Real address to use: 192.168.15.227
+var CURRENT_IP = '127.0.0.1';
 
-  switch (messageObj.id) {
-  case 'TimeTick':
-    try {
-      timeTickHandler(data, timerView);
-    } catch (err) {}
-    break;
-  case 'MatchContainerUpdate':
-    data = data.container;
-    try {
-      matchContainerHandler(data, timerView, scheduleView)
-    } catch (err) {}
-    break;
-  case 'TV_SET':
-    try {
-      tvHandler(data, tv);
-    } catch (err) {}
-    break;
-  case 'GeneralContainerUpdate':
-    data = data.container;
-    try {
-      generalContainerHandler(data, streamView);
-    } catch (err) {}
-    break;
-  }
+var tv = document.querySelector('tv-app');
+var timerView = document.querySelector('timer-view');
+var scheduleView = document.querySelector('schedule-view');
+var streamView = document.querySelector('stream-view');
+
+var reqSock = zmq.socket('req')
+reqSock.connect('tcp://' + CURRENT_IP + ':5801')
+reqSock.on('message', function (message) {
+    tv = document.querySelector('tv-app');
+    timerView = document.querySelector('timer-view');
+    scheduleView = document.querySelector('schedule-view');
+    streamView = document.querySelector('stream-view');
+
+    messageObj = JSON.parse(message);
+    var data = messageObj.payload;
+
+    switch (messageObj.id) {
+        case 'GENERALC_DATA':
+            try {
+                generalContainerHandler(data);
+            } catch (err) {
+            }
+            break;
+        case 'MATCH_DATA':
+            try {
+                matchContainerHandler(data)
+            } catch (err) {
+            }
+            break;
+        case 'TV_DATA':
+            try {
+                tvHandler(data);
+            } catch (err) {
+            }
+            break;
+    }
 });
 
-function timeTickHandler(data, timerView) {
-  var seconds = data.timeToZero % 60;
-  var minutes = Math.floor(data.timeToZero / 60);
-  var hours = Math.floor(minutes / 60);
-  var timeString = '';
+var subSock = zmq.socket('sub');
+subSock.connect('tcp://' + CURRENT_IP + ':5800');
+subSock.subscribe('');
+subSock.on('message', function (message) {
+    tv = document.querySelector('tv-app');
+    timerView = document.querySelector('timer-view');
+    scheduleView = document.querySelector('schedule-view');
+    streamView = document.querySelector('stream-view');
 
-  if (hours != 0) {
-    minutes = minutes % 60;
-    timeString = hours + 'h ' + minutes + 'm ' + seconds + 's';
-  } else {
-    timeString = minutes + 'm ' + seconds + 's';
-  }
+    var messageObj = JSON.parse(message);
+    var data = messageObj.payload;
 
-  timerView.ttz = timeString;
-}
-
-function matchContainerHandler(data, timerView, scheduleView) {
-  timerView.nextNum = data.currentMatch.matchNumber;
-  scheduleView.record = data.wins + "-" + data.losses + "-" + data.ties;
-  timerView.bumperColor = data.currentMatch.bumperColor.toLocaleLowerCase();
-  timerView.allies = data.currentMatch.allies.filter(ignoreOurTeam);
-  timerView.oppo = data.currentMatch.opponents;
-
-  var date = new Date(data.currentMatch.scheduledTime * 1000);
-  var predictedDate = new Date(data.currentMatch.predictedTime * 1000);
-
-  timerView.scheduledTime = date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-  timerView.predictedTime = predictedDate.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  var schedule = data.schedule;
-
-  schedule.forEach(function (e) {
-    var schedDate = new Date(e.scheduledTime * 1000);
-    var predDate = new Date(e.predictedTime * 1000);
-
-    var schedString = schedDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    var predString = predDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    e.schedString = schedString;
-    e.predString = predString;
-    e.allyString = e.allies.filter(ignoreOurTeam).join(', ');
-    e.oppoString = e.opponents.join(', ');
-
-    var result = "LOSS"
-    if (e.bumperColor === e.winner) {
-      result = "WIN"
+    switch (messageObj.id) {
+        case 'TimeTick':
+            try {
+                timeTickHandler(data);
+            } catch (err) {
+            }
+            break;
+        case 'MatchContainerUpdate':
+            data = data.container;
+            try {
+                matchContainerHandler(data)
+            } catch (err) {
+            }
+            break;
+        case 'TV_SET':
+            try {
+                tvHandler(data, tv);
+            } catch (err) {
+            }
+            break;
+        case 'GeneralContainerUpdate':
+            data = data.container;
+            try {
+                generalContainerHandler(data);
+            } catch (err) {
+            }
+            break;
     }
-    if (e.winner === "TIE") {
-      result = "TIE";
+});
+
+function timeTickHandler(data) {
+    var seconds = data.timeToZero % 60;
+    var minutes = Math.floor(data.timeToZero / 60);
+    var hours = Math.floor(minutes / 60);
+    var timeString = '';
+
+    if (hours !== 0) {
+        minutes = minutes % 60;
+        timeString = hours + 'h ' + minutes + 'm ' + seconds + 's';
+    } else {
+        timeString = minutes + 'm ' + seconds + 's';
     }
 
-    e.result = result;
-  });
-
-  scheduleView.data = schedule;
+    timerView.ttz = timeString;
 }
 
-function generalContainerHandler(data, streamView) {
-  streamView.streamType = data.streamType;
-  streamView.video = data.video; //<------------THIS WILL PROBABLY NEED A HELPER....
+function matchContainerHandler(data) {
+    timerView.nextNum = data.currentMatch.matchNumber;
+
+    scheduleView.record = data.wins + "-" + data.losses + "-" + data.ties;
+    timerView.bumperColor = data.currentMatch.bumperColor.toLocaleLowerCase();
+    timerView.allies = data.currentMatch.allies.filter(ignoreOurTeam);
+    timerView.oppo = data.currentMatch.opponents;
+
+    var date = new Date(data.currentMatch.scheduledTime * 1000);
+    var predictedDate = new Date(data.currentMatch.predictedTime * 1000);
+
+    timerView.scheduledTime = date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: tz
+    });
+    timerView.predictedTime = predictedDate.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: tz
+    });
+
+    var schedule = data.schedule;
+
+    schedule.forEach(function (e) {
+        var schedDate = new Date(e.scheduledTime * 1000);
+        var predDate = new Date(e.predictedTime * 1000);
+
+        var schedString = schedDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: tz
+        });
+
+        var predString = predDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: tz
+        });
+
+        e.schedString = schedString;
+        e.predString = predString;
+        e.allyString = e.allies.filter(ignoreOurTeam).join(', ');
+        e.oppoString = e.opponents.join(',');
+
+        var result = "";
+
+
+        if (e.bumperColor === e.winner) {
+            result = "WIN"
+        }
+
+        if (e.bumperColor !== e.winner) {
+            result = "LOSS"
+        }
+
+        if (e.winner === "TIE") {
+            result = "TIE";
+        }
+
+        if (e.redScore === -1) {
+            result = ""
+        }
+        e.result = result;
+
+        if (e.redScore === -1) {
+            e.redScore = "";
+            e.blueScore = "";
+        }
+    });
+
+    scheduleView.data = schedule;
 }
 
-function tvHandler(data, tv) {
-  if (tv.screen == data.name) {
-    tv.set('page', data.selected);
-    setVolume(data.volume);
-  }
+function generalContainerHandler(data) {
+    teamNum = data.teamNumber;
+    tz = data.timeZone;
+    //streamView.streamType = data.streamType;
+    //streamView.video = data.video; //<------------THIS WILL PROBABLY NEED A HELPER....
 }
 
-function powerHandler() {
-  //memes
+function tvHandler(data) {
+    if (tv.screen === data.name) {
+        tv.set('page', data.selected);
+        setVolume(data.volume);
+    }
 }
+
+//function powerHandler() {
+//  //memes
+//}
 
 function setVolume(newVol) {
-  vol.set(newVol, function (err) {});
+    vol.set(newVol, function (err) {
+    });
 }
 
 function ignoreOurTeam(value) {
-  return value != 401;
+    return value !== teamNum;
+}
+
+function updateScreenID(tv) {
+    tv.screen = fs.readFileSync('tvname.txt').toString().replace(" ", "").replace("\n", "");
+}
+
+function sendRequest(packet) {
+    var stringPacket = JSON.stringify(packet);
+    console.log("Sent: " + stringPacket);
+    reqSock.send(stringPacket);
+}
+
+function sendGeneralContainerRequest() {
+    sendRequest({id: 'GENERAL_FETCH'});
+}
+
+function sendMatchContainerRequest() {
+    sendRequest({id: 'MATCH_FETCH'});
+}
+
+function sendTvRequest() {
+    sendRequest({id: 'TV_FETCH'});
 }
