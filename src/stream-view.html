@@ -43,7 +43,7 @@
       },
       streamType: {
         type: String,
-        value: 'youtube'
+        value: 'YOUTUBE'
       },
       muted: {
         type: Boolean,
@@ -72,9 +72,9 @@
     },
 
     controlStream: function (streamType) {
-      this.isLivestream = (streamType === 'livestream');
-      this.isTwitch = (streamType === 'twitch');
-      this.isYoutube = (streamType === 'youtube');
+      this.isLivestream = (streamType === 'LIVESTREAM');
+      this.isTwitch = (streamType === 'TWITCH');
+      this.isYoutube = (streamType === 'YOUTUBE');
     }
   });
   </script>

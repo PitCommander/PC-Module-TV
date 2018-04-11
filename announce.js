@@ -22,6 +22,7 @@ reqSock.on('message', function (message) {
     streamView = document.querySelector('stream-view');
 
     messageObj = JSON.parse(message);
+    //console.log(messageObj);
     var data = messageObj.payload;
 
     switch (messageObj.id) {
@@ -72,7 +73,8 @@ subSock.on('message', function (message) {
             } catch (err) {
             }
             break;
-        case 'TV_SET':
+        case 'TvContainerUpdate':
+            data = data.container
             try {
                 tvHandler(data, tv);
             } catch (err) {
@@ -147,7 +149,7 @@ function matchContainerHandler(data) {
         e.schedString = schedString;
         e.predString = predString;
         e.allyString = e.allies.filter(ignoreOurTeam).join(', ');
-        e.oppoString = e.opponents.join(',');
+        e.oppoString = e.opponents.join(', ');
 
         var result = "";
 
@@ -185,11 +187,12 @@ function generalContainerHandler(data) {
     //streamView.video = data.video; //<------------THIS WILL PROBABLY NEED A HELPER....
 }
 
+//{"id":"TvContainerUpdate","payload":{"container":{"tvs":{"Left":{"power":true,"volume":75,"muted":false,"content":"TIMER"},"Right":{"power":false,"volume":75,"muted":false,"content":"STREAM"}}}}}
+
 function tvHandler(data) {
-    if (tv.screen === data.name) {
-        tv.set('page', data.selected);
-        setVolume(data.volume);
-    }
+    tv.set('page', data.tvs[tv.screen].content.toLowerCase());
+    setVolume(data.tvs[tv.screen].volume);
+    sendMatchContainerRequest();
 }
 
 //function powerHandler() {
