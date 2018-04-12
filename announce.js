@@ -5,7 +5,7 @@ var zmq = require('zeromq');
 var teamNum = 401;
 var tz = "America/New_York";
 
-//Real address to use: 192.168.15.227
+//Real address to use: 10.0.0.1
 var CURRENT_IP = '127.0.0.1';
 
 var tv = document.querySelector('tv-app');
@@ -22,7 +22,6 @@ reqSock.on('message', function (message) {
     streamView = document.querySelector('stream-view');
 
     messageObj = JSON.parse(message);
-    //console.log(messageObj);
     var data = messageObj.payload;
 
     switch (messageObj.id) {
@@ -187,12 +186,13 @@ function generalContainerHandler(data) {
     //streamView.video = data.video; //<------------THIS WILL PROBABLY NEED A HELPER....
 }
 
-//{"id":"TvContainerUpdate","payload":{"container":{"tvs":{"Left":{"power":true,"volume":75,"muted":false,"content":"TIMER"},"Right":{"power":false,"volume":75,"muted":false,"content":"STREAM"}}}}}
-
 function tvHandler(data) {
     tv.set('page', data.tvs[tv.screen].content.toLowerCase());
     setVolume(data.tvs[tv.screen].volume);
-    sendMatchContainerRequest();
+
+    if (data.tvs[tv.screen].muted) {
+        setVolume(0);
+    }
 }
 
 //function powerHandler() {
@@ -200,7 +200,8 @@ function tvHandler(data) {
 //}
 
 function setVolume(newVol) {
-    vol.set(newVol, function (err) {
+    vol.set(newVol/100, function (err) {
+        console.log(err);
     });
 }
 
@@ -214,7 +215,6 @@ function updateScreenID(tv) {
 
 function sendRequest(packet) {
     var stringPacket = JSON.stringify(packet);
-    console.log("Sent: " + stringPacket);
     reqSock.send(stringPacket);
 }
 
