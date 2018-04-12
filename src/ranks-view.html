@@ -1,0 +1,217 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="ranks-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 0;
+            }
+
+            h2 {
+                text-align: center;
+                font-size: 50px;
+                margin: 0;
+                padding: 0;
+            }
+
+            iron-data-table {
+                line-height: 1.14;
+                font-size: 35px;
+                height: 941px;
+                --iron-data-table-row-odd: {
+                    background-color: whitesmoke;
+                };
+                --iron-data-table-row: {
+                    height: 40px;
+                    border-bottom: none;
+                };
+                --iron-data-table-header: {
+                    height: 48px;
+                }
+            }
+
+            .cellPadder {
+                padding: 0 1px 0 0;
+                height: 40px;
+            }
+
+            .th {
+                width: 100%;
+                height: 40px;
+                text-align: center;
+                font-size: smaller;
+            }
+
+            .content {
+                color: #757575;
+                background-color: #fff;
+            }
+
+
+            #grid .normalRow {
+                width: 100%;
+                height: auto;
+                font-size: smaller;
+                text-align: center;
+                flex-direction: row;
+                display: flex;
+                justify-content: center;
+
+            }
+
+            #grid .nameHandler {
+                text-align: left;
+                flex-direction: row;
+                display: block;
+                justify-content: left;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        </style>
+        <div class="content">
+            <h2>Rankings for {{event}}</h2>
+
+            <iron-data-table id="grid" items="[[visibleData]]">
+                <data-table-column name="Rank" width="50px" flex="0">
+                    <template is="header">
+                        <div class="th">Rank</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.rank]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Team" width="70px" flex="0">
+                    <template is="header">
+                        <div class="th">Team</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.team]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Name" flex="3">
+                    <template is="header">
+                        <div class="th">Name</div>
+                    </template>
+                    <template>
+                        <div class="nameHandler">[[item.name]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Score" width="60px" flex="0">
+                    <template is="header">
+                        <div class="th">Score</div>
+                    </template>
+                    <template>
+                        <div class="normalRow"><b>[[item.rankScore]]</b></div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Climb" width="60px" flex="0">
+                    <template is= "header">
+                        <div class="th">Climb</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.climb]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Auto" width="60px" flex="0">
+                    <template is= "header">
+                        <div class="th">Auto</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.auto]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Ownership" width="60px" flex="0">
+                    <template is= "header">
+                        <div class="th">Own</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.own]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Vault" width="60px" flex="0">
+                    <template is= "header">
+                        <div class="th">Vault</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.vault]]</div>
+                    </template>
+                </data-table-column>
+                <data-table-column name="Record" width="100px" flex="0">
+                    <template is="header">
+                <div class="th">Record</div>
+            </template>
+                <template>
+                    <div class="normalRow">[[item.record]]</div>
+                </template>
+                </data-table-column>
+            </iron-data-table>
+
+        </div>
+        <script>
+            document.querySelector('#grid').beforeCellBind = function (data, cell) {
+                cell.classList.add('cellPadder');
+            }
+        </script>
+    </template>
+    <script>
+        Polymer({
+            is: 'ranks-view',
+            properties: {
+                event: {
+                    type: String,
+                    value: "VARIP"
+                },
+
+                itemsShown: {
+                    type: Number,
+                    value: 14
+                },
+
+                pageCount: {
+                    type: Number,
+                    value: 1
+                },
+
+                currentPage: {
+                    type: Number,
+                    value: 0
+                },
+
+                data: {
+                    type: Array,
+                    value: [],
+                },
+
+                visibleData: {
+                    type: Array
+                }
+            },
+
+            pageSlicer: function (view) {
+                view.pageCount = Math.floor(view.data.length / view.itemsShown);
+
+                let startIdx = view.currentPage * view.itemsShown;
+                let endIdx = startIdx + view.itemsShown;
+
+                view.currentPage > view.pageCount - 1 ? view.currentPage = 0 : view.currentPage += 1;
+
+                view.visibleData = view.data.slice(startIdx, endIdx);
+            },
+
+            ready: function () {
+                this.pageSlicer(this);
+
+                let view = this;
+                setInterval(function (view) {
+                    view.pageSlicer(view)
+                }, 5000, view);
+
+                sendRanksRequest();
+            }
+        });
+    </script>
+</dom-module>

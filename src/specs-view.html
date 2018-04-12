@@ -1,21 +1,174 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="specs-page.html">
 <dom-module id="specs-view">
-  <template>
-    <style include="shared-styles">
-     :host {
-      display: block;
-      padding: 10px;
-    }
-    </style>
-    <div class="card">
-      <h1>8 x 775pro west coast drive at 6 and 16 ft/s</h1>
-      <h1>5 and 25 ft/s single stage flip up elevator</h1>
-    </div>
-  </template>
-  <script>
-  Polymer({
-    is: 'specs-view',
-  });
-  </script>
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 0;
+            }
+        </style>
+
+        <neon-animated-pages selected="[[page]]" attr-for-selected="name" fallback-selection="elevator"
+                             role="main" entry-animation="slide-from-right-animation"
+                             exit-animation="slide-left-animation">
+            <specs-page name="intake" title="Intake" image="images/intake.png" text="[[intakeSpecs]]"></specs-page>
+            <specs-page name="software" title="Software" image="images/software.png" text="[[softwareSpecs]]"
+                        other-text="[[softwareSpecs2]]" width="0px"></specs-page>
+            <specs-page name="carriage" title="Carriage" image="images/carriage.png"
+                        text="[[carriageSpecs]]"></specs-page>
+            <specs-page name="elevator" title="Elevator" image="images/fullelevator.png"
+                        other-image="images/elevator.png"
+                        width="300px" other-width="300px" other-height="300px" text="[[elevatorSpecs]]"></specs-page>
+            <specs-page name="drive" title="Drivetrain" image="images/drive.png" text="[[driveSpecs]]"
+                        other-image="images/gearbox.png" width="300px" other-height="300px"
+                        other-width="300px"></specs-page>
+            <specs-page name="overall" title="Copperhead Robotics" image="images/full.jpg"
+                        text="[[overallSpecs]]"></specs-page>
+            <specs-page name="buddy" title="Buddy Bar" image="images/buddy.png" text="[[buddySpecs]]"></specs-page>
+        </neon-animated-pages>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'specs-view',
+            properties: {
+                page: {
+                    type: String,
+                    value: "elevator"
+                },
+
+                overallSpecs: {
+                    type: Array,
+                    value: [
+                        "Robot Name: Apophis",
+                        "Robot Weight: 119 lb",
+                        "Bumper Weight: 15.3 lb",
+                        "Motors: 14 775pros, 1 BAG",
+                        "Pneumatics: 9 cylinders, 5 tanks, no compressor",
+                    ]
+                },
+
+                elevatorSpecs: {
+                    type: Array,
+                    value: [
+                        "Flip up elevator with 50 lbf gas springs and two second deploy sequence",
+                        "Redundant locking features in hinges and carbon fiber telescoping trusses",
+                        "Custom 4x 775pro two speed gearbox with 5 and 25 ft/s gearing",
+                        "6 ft climb in under two seconds",
+                        "8.5 ft cube lift in under 0.5 seconds",
+                        "Piston controlled ratchet module for climbing",
+                        "Velocity based auto homing sequence",
+                        "Trapezoidal motion profiling for elevator positioning"
+                    ]
+                },
+
+                driveSpecs: {
+                    type: Array,
+                    value: [
+                        "Two speed drive with 6 and 16 ft/s gearing",
+                        "Custom 4x 775pro transmissions provide power of 3 CIM gearbox while weighing less than 2 CIMs",
+                        "Current limiting and voltage ramping protect motors and prevent brownouts",
+                        "Eight wheel West Coast Drive, chain-in-tube, mixed traction and omni wheels",
+                        "6” wheels to clear cable trays and platform ramp"
+                    ]
+                },
+
+                intakeSpecs: {
+                    type: Array,
+                    value: [
+                        "Virtual four bar design with 30” wide / 10” deep acquisition zone",
+                        "Intake 11” and 13” cubes in any orientation",
+                        "Positional PID controller with voltage limiting allows for ‘software springs’",
+                        "Banner sensors to detect cube acquisition and automatically handoff to carriage",
+                        "22 ft/s surface speed for intake wheels allows intaking while driving opposite direction",
+                        "Modular design for easy replacement"
+                    ]
+                },
+
+                carriageSpecs: {
+                    type: Array,
+                    value: [
+                        "Pneumatically actuated clamping jaw with hinge for securing 11” and 13” orientation cubes",
+                        "7.3 lb carriage - light enough that CF springs aren’t needed",
+                        "Kicker can deliver 70 lbf to cube",
+                        "Variable kicker power via solenoid timing",
+                        "Latching climbing hooks integrated into carriage roller plates."
+                    ]
+                },
+
+                buddySpecs: {
+                    type: Array,
+                    value: [
+                        "Allows second alliance member to climb off of robot",
+                        "Stowed inside of frame perimeter, pneumatically deploy with spring and cable system at end of match",
+                        "Replicates original rung for compatibility with climbers",
+                        "Secured with 1000 lbf rated Spectra rope"
+                    ]
+                },
+
+                softwareSpecs: {
+                    type: Array,
+                    value: [
+                        "- Robot code written in SnakeSkin modular domain specific language",
+                        "	    - Leverages Kotlin type-safe builder",
+                        "   	- Modules for Core, FRC, and CTRE enable simulation and code execution on multiple platforms",
+                        "	     -State machine based subsystem model with rejection conditions, entry behavior, configurable rate loops, and exit behavior",
+                        "	    - Thread-safe PIDF controller",
+                        "   	- Java Executors allows configurable execution rates for systems and polling rates for sensors.",
+                        "- Motion profiled autonomous routines",
+                        "	    - Controlled with fused gyroscope and encoder feedback, velocity and acceleration feed forward",
+                        "	    - Profiles generated using OpenRIO Pathfinder using team-built MP-Generator",
+                        "   	- 30+ motion profiles for autonomous scoring"
+                    ]
+                },
+
+                softwareSpecs2: {
+                    type: Array,
+                    value: [
+                        "- Cross-subsystem collision avoidance",
+                        "	    - Elevator and intake subsystem controllers coordinate movement to prevent collisions",
+                        "- Velocity based system homing",
+                        "	    - Elevator and intake systems home without needing limit switches",
+                        "	    - Detectable mag encoder presence allows more graceful failure handling than limit switches",
+                        "- Intake software ‘springs’",
+                        "	    - Positional PID controller for intake allows for variable strength grip on power cubes",
+                        "	    - ‘Springiness’ allows intaking 11 and 13 inch orientation cubes",
+                        "	    - Increasing ‘spring’ stiffness is achieved by increasing controller proportional gain",
+                        "- Trapezoidal motion profiled elevator system",
+                        "	    - Cube scoring mode (high gear) controls acceleration to prevent throwing cubes",
+                        "	    - Climbing mode (low gear) controls acceleration to protect robot during sub-two second climb",
+                        "- All motors protected via voltage ramping and current limiting",
+                        "	    - Zero 775pro drive motor failures in three competition events",
+                        "	    - Zero brownouts in three competition events",
+                        "	    - Peak and continuous current limits allow good acceleration while still protecting motors",
+                        "- Automated intake handoff sequence",
+                        "   	- Banner sensors and current sensing for automatic detection of power cube acquisition"
+                    ]
+                },
+
+                pages: {
+                    type: Array,
+                    value: ["overall", "drive", "intake", "elevator", "carriage", "buddy", "software"]
+                }
+            },
+
+            cyclePages: function (view) {
+                let nextView = view.pages.indexOf(view.page) + 1;
+                nextView >= view.pages.length ? nextView = 0 : nextView;
+                view.page = view.pages[nextView];
+            },
+
+            ready: function () {
+                let view = this;
+                // setInterval(function (view) {
+                //     view.cyclePages(view)
+                // }, 10000, view);
+            }
+        });
+    </script>
 </dom-module>

@@ -1,0 +1,89 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="specs-page">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 0px;
+            }
+
+            .columnFlex {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0;
+                margin: 0;
+            }
+
+            h2 {
+                font-size: 50px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .rightAlign {
+                align-content: right;
+            }
+
+            .bottomAlign {
+                display: flex;
+                flex-direction: column;
+                justify-content: end;
+                align-self: flex-end;
+            }
+        </style>
+        <div class="card" name="overall">
+            <div class="columnFlex">
+                <div class="flex">
+                    <h2>[[title]]</h2>
+                    <template is="dom-repeat" items="{{text}}">
+                        <h1>{{item}}</h1>
+                    </template>
+                </div>
+                <div class="flex">
+                    <template is="dom-repeat" items="{{otherText}}">
+                        <h1>{{item}}</h1>
+                    </template>
+                </div>
+                <div class="bottomAlign">
+                    <iron-image style="width:[[otherWidth]]; height: [[otherHeight]]" sizing="contain"
+                                src="[[otherImage]]"></iron-image>
+                </div>
+                <div class="rightAlign">
+                    <iron-image style="width:[[width]]; height: [[height]]" sizing="contain"
+                                src="[[image]]"></iron-image>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'specs-page',
+            properties: {
+                title: String,
+                image: String,
+                otherImage: String,
+                width: {
+                    type: String,
+                    value: '600px'
+                },
+                height: {
+                    type: String,
+                    value: '600px'
+                },
+                otherWidth: {
+                    type: String,
+                    value: '1px'
+                },
+                otherHeight: {
+                    type: String,
+                    value: '1px'
+                },
+                text: Array,
+                otherText: Array
+            }
+        });
+    </script>
+</dom-module>

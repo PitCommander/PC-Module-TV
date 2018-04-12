@@ -12,6 +12,7 @@ var tv = document.querySelector('tv-app');
 var timerView = document.querySelector('timer-view');
 var scheduleView = document.querySelector('schedule-view');
 var streamView = document.querySelector('stream-view');
+var ranksView = document.querySelector('ranks-view');
 
 var reqSock = zmq.socket('req')
 reqSock.connect('tcp://' + CURRENT_IP + ':5801')
@@ -40,6 +41,12 @@ reqSock.on('message', function (message) {
         case 'TV_DATA':
             try {
                 tvHandler(data);
+            } catch (err) {
+            }
+            break;
+        case 'RANKS_DATA':
+            try {
+                ranksContainerHandler(data);
             } catch (err) {
             }
             break;
@@ -83,6 +90,13 @@ subSock.on('message', function (message) {
             data = data.container;
             try {
                 generalContainerHandler(data);
+            } catch (err) {
+            }
+            break;
+        case 'RanksContainerUpdate':
+            data = data.container;
+            try {
+                ranksContainerHandler(data);
             } catch (err) {
             }
             break;
@@ -182,8 +196,9 @@ function matchContainerHandler(data) {
 function generalContainerHandler(data) {
     teamNum = data.teamNumber;
     tz = data.timeZone;
-    //streamView.streamType = data.streamType;
-    //streamView.video = data.video; //<------------THIS WILL PROBABLY NEED A HELPER....
+    streamView.streamType = data.streamType;
+    streamView.video = data.video;
+    ranksView.event = data.event;
 }
 
 function tvHandler(data) {
@@ -195,12 +210,16 @@ function tvHandler(data) {
     }
 }
 
+function ranksContainerHandler(data) {
+    ranksView.data = data;
+}
+
 //function powerHandler() {
 //  //memes
 //}
 
 function setVolume(newVol) {
-    vol.set(newVol/100, function (err) {
+    vol.set(newVol / 100, function (err) {
         console.log(err);
     });
 }
@@ -228,4 +247,8 @@ function sendMatchContainerRequest() {
 
 function sendTvRequest() {
     sendRequest({id: 'TV_FETCH'});
+}
+
+function sendRanksRequest() {
+    sendRequest({id: 'RANKS_FETCH'});
 }

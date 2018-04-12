@@ -12,13 +12,13 @@
     }
     </style>
     <template is="dom-if" if="{{isTwitch}}">
-      <twitch-video muted="{{muted}}" paused="{{paused}}"></twitch-video>
+      <twitch-video video="[[video]]" muted="{{muted}}" paused="{{paused}}"></twitch-video>
     </template>
     <template is="dom-if" if="{{isYoutube}}">
-      <youtube-video muted="{{muted}}" paused="{{paused}}"></youtube-video>
+      <youtube-video video="[[video]]" muted="{{muted}}" paused="{{paused}}"></youtube-video>
     </template>
     <template is="dom-if" if="{{isLivestream}}">
-      <livestream-video muted="{{muted}}" paused="{{paused}}"></livestream-video>
+      <livestream-video video="[[video]]" muted="{{muted}}" paused="{{paused}}"></livestream-video>
     </template>
   </template>
   <script>
@@ -55,7 +55,7 @@
       },
       video: {
         type: String,
-        value: ''
+        value: 'Y6SSJqQMtjg'
       }
     },
     observers: [
