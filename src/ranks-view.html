@@ -49,7 +49,6 @@
                 background-color: #fff;
             }
 
-
             #grid .normalRow {
                 width: 100%;
                 height: auto;
@@ -102,51 +101,51 @@
                 </data-table-column>
                 <data-table-column name="Score" width="60px" flex="0">
                     <template is="header">
-                        <div class="th">Score</div>
+                        <div class="th">[[arrayItem(schema.*, 0, 'name')]]</div>
                     </template>
                     <template>
-                        <div class="normalRow"><b>[[item.rankScore]]</b></div>
+                        <div class="normalRow"><b>[[arrayItem(item.gameData.*, 0, 'value')]]</b></div>
                     </template>
                 </data-table-column>
                 <data-table-column name="Climb" width="60px" flex="0">
-                    <template is= "header">
-                        <div class="th">Climb</div>
+                    <template is="header">
+                        <div class="th">[[arrayItem(schema.*, 1, 'name')]]</div>
                     </template>
                     <template>
-                        <div class="normalRow">[[item.climb]]</div>
+                        <div class="normalRow">[[arrayItem(item.gameData.*, 1, 'value')]]</div>
                     </template>
                 </data-table-column>
                 <data-table-column name="Auto" width="60px" flex="0">
-                    <template is= "header">
-                        <div class="th">Auto</div>
+                    <template is="header">
+                        <div class="th">[[arrayItem(schema.*, 2, 'name')]]</div>
                     </template>
                     <template>
-                        <div class="normalRow">[[item.auto]]</div>
+                        <div class="normalRow">[[arrayItem(item.gameData.*, 2, 'value')]]</div>
                     </template>
                 </data-table-column>
                 <data-table-column name="Ownership" width="60px" flex="0">
-                    <template is= "header">
-                        <div class="th">Own</div>
+                    <template is="header">
+                        <div class="th">[[arrayItem(schema.*, 3, 'name')]]</div>
                     </template>
                     <template>
-                        <div class="normalRow">[[item.own]]</div>
+                        <div class="normalRow">[[arrayItem(item.gameData.*, 3, 'value')]]</div>
                     </template>
                 </data-table-column>
                 <data-table-column name="Vault" width="60px" flex="0">
-                    <template is= "header">
-                        <div class="th">Vault</div>
+                    <template is="header">
+                        <div class="th">[[arrayItem(schema.*, 4, 'name')]]</div>
                     </template>
                     <template>
-                        <div class="normalRow">[[item.vault]]</div>
+                        <div class="normalRow">[[arrayItem(item.gameData.*, 4, 'value')]]</div>
                     </template>
                 </data-table-column>
                 <data-table-column name="Record" width="100px" flex="0">
                     <template is="header">
-                <div class="th">Record</div>
-            </template>
-                <template>
-                    <div class="normalRow">[[item.record]]</div>
-                </template>
+                        <div class="th">Record</div>
+                    </template>
+                    <template>
+                        <div class="normalRow">[[item.record]]</div>
+                    </template>
                 </data-table-column>
             </iron-data-table>
 
@@ -188,7 +187,20 @@
 
                 visibleData: {
                     type: Array
+                },
+
+                schema: {
+                    type: Array,
+                    value: [{'name': 'rank'}]
                 }
+            },
+
+            // first argument is the change record for the array change,
+            // change.base is the array specified in the binding
+            arrayItem: function (change, index, path) {
+                // this.get(path, root) returns a value for a path
+                // relative to a root object.
+                return this.get(path, change.base[index]);
             },
 
             pageSlicer: function (view) {

@@ -23,7 +23,8 @@ reqSock.on('message', function (message) {
     streamView = document.querySelector('stream-view');
 
     messageObj = JSON.parse(message);
-    var data = messageObj.payload;
+    let data = messageObj.payload;
+    let schema = [];
 
     switch (messageObj.id) {
         case 'GENERALC_DATA':
@@ -64,6 +65,7 @@ subSock.on('message', function (message) {
 
     var messageObj = JSON.parse(message);
     var data = messageObj.payload;
+    let schema = [];
 
     switch (messageObj.id) {
         case 'TimeTick':
@@ -93,10 +95,13 @@ subSock.on('message', function (message) {
             } catch (err) {
             }
             break;
-        case 'RanksContainerUpdate':
-            data = data.container;
+        case 'RankContainerUpdate':
+            data = data.container.rankings;
+            schema = data.container.scema;
+
+            console.log("rank data")
             try {
-                ranksContainerHandler(data);
+                ranksContainerHandler(data, schema);
             } catch (err) {
             }
             break;
@@ -210,7 +215,9 @@ function tvHandler(data) {
     }
 }
 
-function ranksContainerHandler(data) {
+function ranksContainerHandler(data, schema) {
+    console.log(data);
+    ranksView.schema = schema
     ranksView.data = data;
 }
 
@@ -250,5 +257,5 @@ function sendTvRequest() {
 }
 
 function sendRanksRequest() {
-    sendRequest({id: 'RANKS_FETCH'});
+    sendRequest({id: 'RANK_FETCH'});
 }

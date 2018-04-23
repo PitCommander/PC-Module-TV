@@ -17,8 +17,8 @@
                              role="main" entry-animation="slide-from-right-animation"
                              exit-animation="slide-left-animation">
             <specs-page name="intake" title="Intake" image="images/intake.png" text="[[intakeSpecs]]"></specs-page>
-            <specs-page name="software" title="Software" image="images/software.png" text="[[softwareSpecs]]"
-                        other-text="[[softwareSpecs2]]" width="0px"></specs-page>
+            <specs-page name="software" title="SnakeSkin" image="images/software.png" text="[[softwareSpecs]]"
+                        width="0px"></specs-page>
             <specs-page name="carriage" title="Carriage" image="images/carriage.png"
                         text="[[carriageSpecs]]"></specs-page>
             <specs-page name="elevator" title="Elevator" image="images/fullelevator.png"
@@ -84,6 +84,7 @@
                         "Virtual four bar design with 30” wide / 10” deep acquisition zone",
                         "Intake 11” and 13” cubes in any orientation",
                         "Positional PID controller with voltage limiting allows for ‘software springs’",
+                        "Cross-subsystem collision avoidance between intake and elevator",
                         "Banner sensors to detect cube acquisition and automatically handoff to carriage",
                         "22 ft/s surface speed for intake wheels allows intaking while driving opposite direction",
                         "Modular design for easy replacement"
@@ -114,40 +115,11 @@
                 softwareSpecs: {
                     type: Array,
                     value: [
-                        "- Robot code written in SnakeSkin modular domain specific language",
-                        "	    - Leverages Kotlin type-safe builder",
-                        "   	- Modules for Core, FRC, and CTRE enable simulation and code execution on multiple platforms",
-                        "	     -State machine based subsystem model with rejection conditions, entry behavior, configurable rate loops, and exit behavior",
-                        "	    - Thread-safe PIDF controller",
-                        "   	- Java Executors allows configurable execution rates for systems and polling rates for sensors.",
-                        "- Motion profiled autonomous routines",
-                        "	    - Controlled with fused gyroscope and encoder feedback, velocity and acceleration feed forward",
-                        "	    - Profiles generated using OpenRIO Pathfinder using team-built MP-Generator",
-                        "   	- 30+ motion profiles for autonomous scoring"
-                    ]
-                },
-
-                softwareSpecs2: {
-                    type: Array,
-                    value: [
-                        "- Cross-subsystem collision avoidance",
-                        "	    - Elevator and intake subsystem controllers coordinate movement to prevent collisions",
-                        "- Velocity based system homing",
-                        "	    - Elevator and intake systems home without needing limit switches",
-                        "	    - Detectable mag encoder presence allows more graceful failure handling than limit switches",
-                        "- Intake software ‘springs’",
-                        "	    - Positional PID controller for intake allows for variable strength grip on power cubes",
-                        "	    - ‘Springiness’ allows intaking 11 and 13 inch orientation cubes",
-                        "	    - Increasing ‘spring’ stiffness is achieved by increasing controller proportional gain",
-                        "- Trapezoidal motion profiled elevator system",
-                        "	    - Cube scoring mode (high gear) controls acceleration to prevent throwing cubes",
-                        "	    - Climbing mode (low gear) controls acceleration to protect robot during sub-two second climb",
-                        "- All motors protected via voltage ramping and current limiting",
-                        "	    - Zero 775pro drive motor failures in three competition events",
-                        "	    - Zero brownouts in three competition events",
-                        "	    - Peak and continuous current limits allow good acceleration while still protecting motors",
-                        "- Automated intake handoff sequence",
-                        "   	- Banner sensors and current sensing for automatic detection of power cube acquisition"
+                        "Custom modular domain specific language",
+                        "Uses Kotlin type-safe builder for custom functionality",
+                        "Maven packages for Core, FRC, and CTRE enable simulation and code execution on multiple platforms",
+                        "State machine based subsystem model with rejection conditions, entry behaviour, configurable rate loops, and exit behaviour",
+                        "Automated code builds and verification with Travis CI"
                     ]
                 },
 
@@ -165,9 +137,9 @@
 
             ready: function () {
                 let view = this;
-                // setInterval(function (view) {
-                //     view.cyclePages(view)
-                // }, 10000, view);
+                setInterval(function (view) {
+                    view.cyclePages(view)
+                }, 10000, view);
             }
         });
     </script>
