@@ -6,7 +6,7 @@
         <style include="shared-styles">
             :host {
                 display: block;
-                padding: 0px;
+                padding: 0;
             }
 
             .columnFlex {
@@ -21,6 +21,12 @@
                 font-size: 50px;
                 margin: 0;
                 padding: 0;
+                font-weight: bold;
+                text-underline: #333333;
+            }
+
+            h1 {
+                font-size: 40px;
             }
 
             .rightAlign {
@@ -37,7 +43,7 @@
         <div class="card" name="overall">
             <div class="columnFlex">
                 <div class="flex">
-                    <h2>[[title]]</h2>
+                    <h2><b><u>[[title]]</u></b></h2>
                     <template is="dom-repeat" items="{{text}}">
                         <h1>- {{item}}</h1>
                     </template>
@@ -67,11 +73,11 @@
                 otherImage: String,
                 width: {
                     type: String,
-                    value: '600px'
+                    value: '950px'
                 },
                 height: {
                     type: String,
-                    value: '600px'
+                    value: '950px'
                 },
                 otherWidth: {
                     type: String,

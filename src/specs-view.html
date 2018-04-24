@@ -17,16 +17,13 @@
                              role="main" entry-animation="slide-from-right-animation"
                              exit-animation="slide-left-animation">
             <specs-page name="intake" title="Intake" image="images/intake.png" text="[[intakeSpecs]]"></specs-page>
-            <specs-page name="software" title="SnakeSkin" image="images/software.png" text="[[softwareSpecs]]"
-                        width="0px"></specs-page>
+            <specs-page name="software" title="SnakeSkin" image="images/software.png" text="[[softwareSpecs]]"></specs-page>
             <specs-page name="carriage" title="Carriage" image="images/carriage.png"
                         text="[[carriageSpecs]]"></specs-page>
             <specs-page name="elevator" title="Elevator" image="images/fullelevator.png"
                         other-image="images/elevator.png"
-                        width="300px" other-width="300px" other-height="300px" text="[[elevatorSpecs]]"></specs-page>
-            <specs-page name="drive" title="Drivetrain" image="images/drive.png" text="[[driveSpecs]]"
-                        other-image="images/gearbox.png" width="300px" other-height="300px"
-                        other-width="300px"></specs-page>
+                        width="600px" other-width="400px" other-height="400px" text="[[elevatorSpecs]]"></specs-page>
+            <specs-page name="drive" title="Drivetrain" image="images/drive.png" text="[[driveSpecs]]"></specs-page>
             <specs-page name="overall" title="Copperhead Robotics" image="images/full.jpg"
                         text="[[overallSpecs]]"></specs-page>
             <specs-page name="buddy" title="Buddy Bar" image="images/buddy.png" text="[[buddySpecs]]"></specs-page>
@@ -39,17 +36,20 @@
             properties: {
                 page: {
                     type: String,
-                    value: "elevator"
+                    value: "overall"
                 },
 
                 overallSpecs: {
                     type: Array,
                     value: [
                         "Robot Name: Apophis",
+                        "Width: 28\"",
+                        "Length: 33\"",
+                        "Height: 99\"",
                         "Robot Weight: 119 lb",
                         "Bumper Weight: 15.3 lb",
                         "Motors: 14 775pros, 1 BAG",
-                        "Pneumatics: 9 cylinders, 5 tanks, no compressor",
+                        "Pneumatics: 9 cylinders, 5 tanks",
                     ]
                 },
 
@@ -139,7 +139,7 @@
                 let view = this;
                 setInterval(function (view) {
                     view.cyclePages(view)
-                }, 10000, view);
+                }, 20000, view);
             }
         });
     </script>

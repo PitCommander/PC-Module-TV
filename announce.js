@@ -1,30 +1,30 @@
-var vol = require('vol');
-var fs = require('fs');
-var zmq = require('zeromq');
+const vol = require('vol');
+const fs = require('fs');
+const zmq = require('zeromq');
 
-var teamNum = 401;
-var tz = "America/New_York";
+let teamNum = 401;
+let tz = "America/New_York";
 
 //Real address to use: 10.0.0.1
-var CURRENT_IP = '127.0.0.1';
+const CURRENT_IP = '127.0.0.1';
 
-var tv = document.querySelector('tv-app');
-var timerView = document.querySelector('timer-view');
-var scheduleView = document.querySelector('schedule-view');
-var streamView = document.querySelector('stream-view');
-var ranksView = document.querySelector('ranks-view');
+let tv = document.querySelector('tv-app');
+let timerView = document.querySelector('timer-view');
+let scheduleView = document.querySelector('schedule-view');
+let streamView = document.querySelector('stream-view');
+let ranksView = document.querySelector('ranks-view');
 
-var reqSock = zmq.socket('req')
-reqSock.connect('tcp://' + CURRENT_IP + ':5801')
+const reqSock = zmq.socket('req');
+reqSock.connect('tcp://' + CURRENT_IP + ':5801');
 reqSock.on('message', function (message) {
     tv = document.querySelector('tv-app');
     timerView = document.querySelector('timer-view');
     scheduleView = document.querySelector('schedule-view');
     streamView = document.querySelector('stream-view');
+    ranksView = document.querySelector('ranks-view');
 
-    messageObj = JSON.parse(message);
+    let messageObj = JSON.parse(message);
     let data = messageObj.payload;
-    let schema = [];
 
     switch (messageObj.id) {
         case 'GENERALC_DATA':
@@ -54,7 +54,7 @@ reqSock.on('message', function (message) {
     }
 });
 
-var subSock = zmq.socket('sub');
+const subSock = zmq.socket('sub');
 subSock.connect('tcp://' + CURRENT_IP + ':5800');
 subSock.subscribe('');
 subSock.on('message', function (message) {
@@ -62,9 +62,10 @@ subSock.on('message', function (message) {
     timerView = document.querySelector('timer-view');
     scheduleView = document.querySelector('schedule-view');
     streamView = document.querySelector('stream-view');
+    ranksView = document.querySelector('ranks-view');
 
-    var messageObj = JSON.parse(message);
-    var data = messageObj.payload;
+    const messageObj = JSON.parse(message);
+    let data = messageObj.payload;
     let schema = [];
 
     switch (messageObj.id) {
@@ -82,7 +83,7 @@ subSock.on('message', function (message) {
             }
             break;
         case 'TvContainerUpdate':
-            data = data.container
+            data = data.container;
             try {
                 tvHandler(data, tv);
             } catch (err) {
@@ -96,10 +97,11 @@ subSock.on('message', function (message) {
             }
             break;
         case 'RankContainerUpdate':
-            data = data.container.rankings;
-            schema = data.container.scema;
+            data = data.container;
 
-            console.log("rank data")
+            schema = data.schema;
+            data = data.rankings;
+
             try {
                 ranksContainerHandler(data, schema);
             } catch (err) {
@@ -109,10 +111,10 @@ subSock.on('message', function (message) {
 });
 
 function timeTickHandler(data) {
-    var seconds = data.timeToZero % 60;
-    var minutes = Math.floor(data.timeToZero / 60);
-    var hours = Math.floor(minutes / 60);
-    var timeString = '';
+    const seconds = data.timeToZero % 60;
+    let minutes = Math.floor(data.timeToZero / 60);
+    const hours = Math.floor(minutes / 60);
+    let timeString = '';
 
     if (hours !== 0) {
         minutes = minutes % 60;
@@ -132,8 +134,8 @@ function matchContainerHandler(data) {
     timerView.allies = data.currentMatch.allies.filter(ignoreOurTeam);
     timerView.oppo = data.currentMatch.opponents;
 
-    var date = new Date(data.currentMatch.scheduledTime * 1000);
-    var predictedDate = new Date(data.currentMatch.predictedTime * 1000);
+    const date = new Date(data.currentMatch.scheduledTime * 1000);
+    const predictedDate = new Date(data.currentMatch.predictedTime * 1000);
 
     timerView.scheduledTime = date.toLocaleTimeString([], {
         hour: '2-digit',
@@ -146,19 +148,19 @@ function matchContainerHandler(data) {
         timeZone: tz
     });
 
-    var schedule = data.schedule;
+    const schedule = data.schedule;
 
     schedule.forEach(function (e) {
-        var schedDate = new Date(e.scheduledTime * 1000);
-        var predDate = new Date(e.predictedTime * 1000);
+        const schedDate = new Date(e.scheduledTime * 1000);
+        const predDate = new Date(e.predictedTime * 1000);
 
-        var schedString = schedDate.toLocaleTimeString([], {
+        const schedString = schedDate.toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
             timeZone: tz
         });
 
-        var predString = predDate.toLocaleTimeString([], {
+        const predString = predDate.toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
             timeZone: tz
@@ -169,7 +171,7 @@ function matchContainerHandler(data) {
         e.allyString = e.allies.filter(ignoreOurTeam).join(', ');
         e.oppoString = e.opponents.join(', ');
 
-        var result = "";
+        let result = "";
 
 
         if (e.bumperColor === e.winner) {
@@ -216,8 +218,10 @@ function tvHandler(data) {
 }
 
 function ranksContainerHandler(data, schema) {
-    console.log(data);
-    ranksView.schema = schema
+
+    console.log(schema);
+
+    ranksView.schema = schema;
     ranksView.data = data;
 }
 
@@ -240,7 +244,7 @@ function updateScreenID(tv) {
 }
 
 function sendRequest(packet) {
-    var stringPacket = JSON.stringify(packet);
+    const stringPacket = JSON.stringify(packet);
     reqSock.send(stringPacket);
 }
 

@@ -14,11 +14,12 @@
                 font-size: 50px;
                 margin: 0;
                 padding: 0;
+                text-transform: uppercase;
             }
 
             iron-data-table {
                 line-height: 1.14;
-                font-size: 35px;
+                font-size: 25px;
                 height: 941px;
                 --iron-data-table-row-odd: {
                     background-color: whitesmoke;
@@ -41,7 +42,7 @@
                 width: 100%;
                 height: 40px;
                 text-align: center;
-                font-size: smaller;
+                font-size: 28px;
             }
 
             .content {
@@ -52,7 +53,7 @@
             #grid .normalRow {
                 width: 100%;
                 height: auto;
-                font-size: smaller;
+                font-size: 25px;
                 text-align: center;
                 flex-direction: row;
                 display: flex;
@@ -91,7 +92,7 @@
                         <div class="normalRow">[[item.team]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Name" flex="3">
+                <data-table-column width="200px" flex="4">
                     <template is="header">
                         <div class="th">Name</div>
                     </template>
@@ -99,7 +100,7 @@
                         <div class="nameHandler">[[item.name]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Score" width="60px" flex="0">
+                <data-table-column flex="2">
                     <template is="header">
                         <div class="th">[[arrayItem(schema.*, 0, 'name')]]</div>
                     </template>
@@ -107,7 +108,7 @@
                         <div class="normalRow"><b>[[arrayItem(item.gameData.*, 0, 'value')]]</b></div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Climb" width="60px" flex="0">
+                <data-table-column flex="3">
                     <template is="header">
                         <div class="th">[[arrayItem(schema.*, 1, 'name')]]</div>
                     </template>
@@ -115,7 +116,7 @@
                         <div class="normalRow">[[arrayItem(item.gameData.*, 1, 'value')]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Auto" width="60px" flex="0">
+                <data-table-column flex="1">
                     <template is="header">
                         <div class="th">[[arrayItem(schema.*, 2, 'name')]]</div>
                     </template>
@@ -123,7 +124,7 @@
                         <div class="normalRow">[[arrayItem(item.gameData.*, 2, 'value')]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Ownership" width="60px" flex="0">
+                <data-table-column flex="1">
                     <template is="header">
                         <div class="th">[[arrayItem(schema.*, 3, 'name')]]</div>
                     </template>
@@ -131,7 +132,7 @@
                         <div class="normalRow">[[arrayItem(item.gameData.*, 3, 'value')]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Vault" width="60px" flex="0">
+                <data-table-column flex="1">
                     <template is="header">
                         <div class="th">[[arrayItem(schema.*, 4, 'name')]]</div>
                     </template>
@@ -139,7 +140,7 @@
                         <div class="normalRow">[[arrayItem(item.gameData.*, 4, 'value')]]</div>
                     </template>
                 </data-table-column>
-                <data-table-column name="Record" width="100px" flex="0">
+                <data-table-column flex="1">
                     <template is="header">
                         <div class="th">Record</div>
                     </template>
@@ -167,7 +168,7 @@
 
                 itemsShown: {
                     type: Number,
-                    value: 14
+                    value: 22
                 },
 
                 pageCount: {
@@ -191,7 +192,7 @@
 
                 schema: {
                     type: Array,
-                    value: [{'name': 'rank'}]
+                    value: []
                 }
             },
 
